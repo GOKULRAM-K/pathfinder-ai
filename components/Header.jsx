@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Navbar from './Navbar.jsx'
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -62,7 +63,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
+    <header  className="fixed top-0 left-0 right-0 z-50">
       {clerkKeyless && (
         <div className="w-full bg-yellow-100 text-yellow-800 text-sm py-1 text-center">
           Clerk running in keyless dev mode — auth is disabled locally.
@@ -80,12 +81,49 @@ export default function Header() {
             priority
           />
         </Link>
+        <ul className="flex gap-6 text-lg">
+        <li>
+          <a href="#home" className="hover:text-cyan-400 transition">
+            Home
+          </a>
+        </li>
 
+        <li>
+          <a href="#features" className="hover:text-cyan-400 transition">
+            Features
+          </a>
+        </li>
+
+        <li>
+          <a href="#about" className="hover:text-cyan-400 transition">
+            About
+          </a>
+        </li>
+
+        <li>
+          <a href="#feedback" className="hover:text-cyan-400 transition">
+            Feedback
+          </a>
+        </li>
+        <li>
+          <a href="#question" className="hover:text-cyan-400 transition">
+            F&Q
+          </a>
+        </li>        
+        <li>
+          <a href="#contact" className="hover:text-cyan-400 transition">
+            Contact Us
+          </a>
+        </li>
+
+      </ul>
+        
         <ModeToggle />
 
         <div className="flex items-center space-x-2 md:space-x-4">
           {/* -------- Signed-in navigation -------- */}
           <SignedIn>
+            
             {/* Dashboard button */}
             <Button
               variant="outline"

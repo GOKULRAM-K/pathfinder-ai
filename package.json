@@ -34,6 +34,7 @@
     "framer-motion": "^12.18.1",
     "html2pdf.js": "^0.10.3",
     "inngest": "^3.39.2",
+    "lightningcss": "^1.32.0",
     "lucide-react": "^0.522.0",
     "marked": "^15.0.12",
     "next": "15.5.18",
