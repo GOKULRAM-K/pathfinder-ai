@@ -76,18 +76,28 @@ export function EntryForm({ type, entries, onChange }) {
     error: improveError,
   } = useFetch(improveWithAI);
 
-  // Add this effect to handle the improvement result
+ 
   useEffect(() => {
     if (improvedContent && !isImproving) {
-      setValue("description", improvedContent);
-      toast.success("Description improved successfully!");
+      // Check if the backend validation engine rejected the request (e.g., input too long)
+      if (improvedContent.success === false) {
+        const errorMessage =
+          improvedContent.errors?.current?.[0] ||
+          improvedContent.errors?._form?.[0] ||
+          "Server validation rejected payload parameters.";
+        toast.error(errorMessage);
+      } else {
+      
+        setValue("description", improvedContent.data);
+        toast.success("Description improved successfully!");
+      }
     }
     if (improveError) {
       toast.error(improveError.message || "Failed to improve description");
     }
   }, [improvedContent, improveError, isImproving, setValue]);
 
-  // Replace handleImproveDescription with this
+
   const handleImproveDescription = async () => {
     const description = watch("description");
     if (!description) {
