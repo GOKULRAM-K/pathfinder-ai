@@ -1,3 +1,5 @@
+---
+
 # 🧠💼 PathFinder AI
 
 <p align="center">
@@ -211,3 +213,4 @@ MIT License © 2026
   <b>PathFinder AI — Smart Careers Start Here 🚀</b>
 </p>
 ```
+---
