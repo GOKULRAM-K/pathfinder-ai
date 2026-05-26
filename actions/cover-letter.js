@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import { generateGeminiContent } from "@/lib/gemini";
 import { buildSecurePrompt, generateWithStructuredOutput } from "@/lib/prompt-safety";
 import { validateOutput } from "@/lib/validate";
-import { coverLetterOutputSchema } from "@/lib/schemas/outputs";
+import { coverLetterOutputSchema, SCHEMA_DESCRIPTIONS } from "@/lib/schemas/outputs";
 
 /**
  * Generates a professional cover letter using Gemini AI with structured output validation.
@@ -27,6 +27,10 @@ export async function generateCoverLetter(data) {
   const prompt = buildSecurePrompt({
     task: `Write a professional cover letter for the position described below.
 
+Use only the candidate facts provided in the input. Do not invent projects, achievements,
+titles, certifications, metrics, or years of experience that are not explicitly provided.
+If a detail is missing, keep the wording general instead of guessing.
+
 Respond ONLY with a valid JSON object in this exact format (no markdown, no code fences):
 {
   "greeting": "Dear Hiring Manager,",
@@ -46,11 +50,7 @@ Respond ONLY with a valid JSON object in this exact format (no markdown, no code
     ],
   });
 
-  const schemaDescription = `{
-  "greeting": "string (e.g. Dear Hiring Manager,)",
-  "body": "string (cover letter body, 2-3 paragraphs)",
-  "closing": "string (e.g. Sincerely, <name>)"
-}`;
+  const schemaDescription = SCHEMA_DESCRIPTIONS.coverLetter;
 
   try {
     const result = await generateWithStructuredOutput({

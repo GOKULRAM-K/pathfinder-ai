@@ -7,7 +7,7 @@ import { generateGeminiContent } from "@/lib/gemini";
 import { buildSecurePrompt, generateWithStructuredOutput } from "@/lib/prompt-safety";
 import { validateInput, validateOutput } from "@/lib/validate";
 import { resumeSaveSchema, resumeImprovementSchema } from "@/lib/schemas/forms";
-import { resumeImprovementOutputSchema } from "@/lib/schemas/outputs";
+import { resumeImprovementOutputSchema, SCHEMA_DESCRIPTIONS } from "@/lib/schemas/outputs";
 
 export async function saveResume(rawContent) {
   const { userId } = await auth();
@@ -79,11 +79,12 @@ export async function improveWithAI(rawParams) {
 
 Requirements:
 1. Use action verbs
-2. Include metrics and results where possible
+2. Include metrics and results only when supported by the source text
 3. Highlight relevant technical skills
 4. Keep it concise but detailed
 5. Focus on achievements over responsibilities
 6. Use industry-specific keywords
+7. Do not invent employers, dates, tools, certifications, metrics, or outcomes
 
 Respond ONLY with a valid JSON object in this exact format (no markdown, no code fences):
 {
@@ -97,10 +98,7 @@ Respond ONLY with a valid JSON object in this exact format (no markdown, no code
     ],
   });
 
-  const schemaDescription = `{
-  "improvedContent": "string (improved resume paragraph)",
-  "highlights": ["string (key achievement)", ...]
-}`;
+  const schemaDescription = SCHEMA_DESCRIPTIONS.resumeImprovement;
 
   try {
     const result = await generateWithStructuredOutput({

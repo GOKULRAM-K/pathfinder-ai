@@ -5,6 +5,7 @@ import { stripMarkdownFences, validateOutput } from "../lib/validate.js";
 import {
   resumeImprovementOutputSchema,
   coverLetterOutputSchema,
+  interviewQuestionsOutputSchema,
 } from "../lib/schemas/outputs.js";
 import { buildFormatCorrectionPrompt } from "../lib/prompt-safety.js";
 
@@ -111,4 +112,52 @@ test("buildFormatCorrectionPrompt truncates long bad output to 500 chars", () =>
   const prompt = buildFormatCorrectionPrompt("task", longBadOutput, "schema");
   const badOutputSection = prompt.split("Previous (malformed) response:")[1];
   assert.ok(badOutputSection.length <= 600); // 500 + some whitespace
+});
+
+// ── validateOutput — interview questions ───────────────────────────────────
+
+test("validateOutput accepts valid interview questions output", () => {
+  const raw = JSON.stringify({
+    questions: [
+      {
+        question: "What is polymorphism in OOP?",
+        options: ["A design pattern", "Ability of objects to take many forms", "A data structure", "A sorting algorithm"],
+        correctAnswer: "Ability of objects to take many forms",
+        explanation: "Polymorphism allows objects of different types to be treated as instances of the same class.",
+      },
+    ],
+  });
+  const result = validateOutput(interviewQuestionsOutputSchema, raw);
+  assert.equal(result.success, true);
+  assert.ok(Array.isArray(result.data.questions));
+  assert.equal(result.data.questions.length, 1);
+});
+
+test("validateOutput rejects interview questions output with missing explanation", () => {
+  const raw = JSON.stringify({
+    questions: [
+      {
+        question: "What is polymorphism?",
+        options: ["A", "B", "C", "D"],
+        correctAnswer: "A",
+      },
+    ],
+  });
+  const result = validateOutput(interviewQuestionsOutputSchema, raw);
+  assert.equal(result.success, false);
+});
+
+test("validateOutput rejects interview questions with wrong options count", () => {
+  const raw = JSON.stringify({
+    questions: [
+      {
+        question: "What is polymorphism?",
+        options: ["A", "B", "C"],
+        correctAnswer: "A",
+        explanation: "Some explanation here.",
+      },
+    ],
+  });
+  const result = validateOutput(interviewQuestionsOutputSchema, raw);
+  assert.equal(result.success, false);
 });
