@@ -65,10 +65,11 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
+    "@ampproject/remapping": "^2.3.0",
     "@eslint/eslintrc": "^3",
-    "@testing-library/react": "^16.3.0",
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/react": "^16.3.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.18",
     "jest": "^30.4.2",
