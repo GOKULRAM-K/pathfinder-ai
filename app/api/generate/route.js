@@ -14,6 +14,10 @@ import {
 import {
   getCachedResponse,
   cacheResponse,
+  buildCacheKey,
+  getPendingGenerationRequest,
+  setPendingGenerationRequest,
+  deletePendingGenerationRequest,
 } from "@/lib/cache/cache-service";
 import { respondError, respondSseError, ERROR_CODES } from "@/lib/api/error-handler";
 const SSE_HEADERS = {
@@ -124,6 +128,7 @@ export async function POST(request) {
     return respondError(ERROR_CODES.USER_NOT_FOUND);
   }
   const cacheUser = userId || request.headers.get("x-forwarded-for") || "anonymous";
+  const cacheKey = buildCacheKey(cacheUser, promptCheck.prompt);
 
   const existingCachedResponse = await getCachedResponse(
     cacheUser,
@@ -161,6 +166,59 @@ export async function POST(request) {
     },
   });
 }
+
+  // Check for pending request (deduplication)
+  const pendingRequest = await getPendingGenerationRequest(
+    cacheUser,
+    promptCheck.prompt
+  );
+
+  if (pendingRequest) {
+    try {
+      await pendingRequest;
+    } catch (error) {
+      // Pending request failed, we'll proceed with our own generation
+      console.warn("[dedup] Pending request failed, proceeding with new generation");
+    }
+
+    const cachedAfterPending = await getCachedResponse(
+      cacheUser,
+      promptCheck.prompt
+    );
+
+    if (cachedAfterPending) {
+      const encoder = new TextEncoder();
+      const cachedStream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(
+            encodeSseEvent(encoder, "delta", {
+              text: cachedAfterPending,
+              cached: true,
+              deduped: true,
+            })
+          );
+
+          controller.enqueue(
+            encodeSseEvent(encoder, "done", {
+              finalText: cachedAfterPending,
+              hasContent: true,
+              cached: true,
+              deduped: true,
+            })
+          );
+
+          controller.close();
+        },
+      });
+
+      return new Response(cachedStream, {
+        headers: {
+          ...SSE_HEADERS,
+          "X-Cache": "DEDUP",
+        },
+      });
+    }
+  }
 
   if (conversationId) {
     try {
@@ -200,6 +258,12 @@ export async function POST(request) {
   }
 
   const encoder = new TextEncoder();
+
+  let generationCompletionResolve, generationCompletionReject;
+  const generationCompletionPromise = new Promise((resolve, reject) => {
+    generationCompletionResolve = resolve;
+    generationCompletionReject = reject;
+  });
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -299,6 +363,7 @@ Rules:
           hasContent: Boolean(fullResponse.trim()),
         });
         safeClose();
+        generationCompletionResolve(fullResponse);
       } catch (error) {
         console.error("Gemini streaming error:", error?.message || error);
 
@@ -306,8 +371,15 @@ Rules:
           message: error?.message || "Unknown error",
         });
         safeClose();
+        generationCompletionReject(error);
       }
     },
+  });
+
+  // Set this request as pending for deduplication
+  setPendingGenerationRequest(cacheUser, promptCheck.prompt, generationCompletionPromise);
+  generationCompletionPromise.finally(() => {
+    deletePendingGenerationRequest(cacheUser, promptCheck.prompt);
   });
 
   return new Response(stream, {

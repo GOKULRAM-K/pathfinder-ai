@@ -94,7 +94,9 @@ export default function useStreamFetch() {
           conversationId,
         }),
         signal: controller.signal,
-      });
+      };
+
+      const response = await fetch("/api/generate", fetchOptions);
 
       if (!response.ok) {
         const contentType = (response.headers.get("Content-Type") || "").toLowerCase();
