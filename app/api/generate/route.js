@@ -200,6 +200,7 @@ export async function POST(request) {
   }
 
   const encoder = new TextEncoder();
+  const abortController = new AbortController();
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -207,7 +208,7 @@ export async function POST(request) {
       let streamClosed = false;
 
       const safeEnqueue = (event, payload) => {
-        if (streamClosed) return;
+        if (streamClosed || abortController.signal.aborted) return;
         controller.enqueue(encodeSseEvent(encoder, event, payload));
       };
 
@@ -246,9 +247,14 @@ Rules:
           ],
         });
 
-        const result = await generateGeminiContentStream(restrictedPrompt);
+        const result = await generateGeminiContentStream(restrictedPrompt, {
+          signal: abortController.signal,
+        });
 
         for await (const chunk of result.stream) {
+
+          if (abortController.signal.aborted) break;
+
           const text = extractChunkText(chunk);
 
           if (text) {
@@ -256,6 +262,11 @@ Rules:
             safeEnqueue("delta", { text });
           }
         }
+
+        if (abortController.signal.aborted) {
+          safeClose();
+          return;
+        } 
 
         if (conversationId && fullResponse.trim()) {
           if (user?.saveChatHistory ?? true) {
@@ -300,6 +311,10 @@ Rules:
         });
         safeClose();
       } catch (error) {
+        if (abortController.signal.aborted) {
+          safeClose();
+          return;
+        }
         console.error("Gemini streaming error:", error?.message || error);
 
         safeEnqueue("error", {
@@ -307,6 +322,10 @@ Rules:
         });
         safeClose();
       }
+    },
+  cancel(reason) {
+      console.warn("SSE stream cancelled by client connection abort:", reason);
+      abortController.abort();
     },
   });
 
