@@ -2,8 +2,9 @@
 
 <br/>
 
-<img src="https://raw.githubusercontent.com/harshdwivediiiii/pathfinder-ai/main/public/pathfinder-ai.gif" alt="PathFinder AI" width="100%" />
+<img src="https://raw.githubusercontent.com/harshdwivediiiii/pathfinder-ai/main/public/pathfinder-ai.gif" alt="PathFinder AI Banner" width="100%" style="border-radius: 12px;" />
 
+<br/>
 <br/>
 
 # 🧭 PathFinder AI
@@ -12,16 +13,45 @@
 
 <br/>
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-pathfinder--ai.vercel.app-000000?style=for-the-badge)](https://pathfinder-ai.vercel.app)
-[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
-[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
-[![GSSoC'26](https://img.shields.io/badge/Open_Source-GSSoC'26-8b5cf6?style=for-the-badge)](https://gssoc.girlscript.tech)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-f97316?style=for-the-badge)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/harshdwivediiiii/pathfinder-ai?style=for-the-badge&logo=github)](https://github.com/harshdwivediiiii/pathfinder-ai/stargazers)
+<p align="center">
+  <a href="https://pathfinder-ai.vercel.app">
+    <img src="https://img.shields.io/badge/🌐_Live_Demo-pathfinder--ai.vercel.app-000000?style=for-the-badge" alt="Live Demo" />
+  </a>
+  <a href="https://nextjs.org">
+    <img src="https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs" alt="Next.js" />
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge" alt="License" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://gssoc.girlscript.tech">
+    <img src="https://img.shields.io/badge/Open_Source-GSSoC'26-8b5cf6?style=for-the-badge" alt="GSSoC'26" />
+  </a>
+  <a href="CONTRIBUTING.md">
+    <img src="https://img.shields.io/badge/PRs-Welcome-f97316?style=for-the-badge" alt="PRs Welcome" />
+  </a>
+  <a href="https://github.com/harshdwivediiiii/pathfinder-ai/stargazers">
+    <img src="https://img.shields.io/github/stars/harshdwivediiiii/pathfinder-ai?style=for-the-badge&logo=github&color=fbbf24" alt="Stars" />
+  </a>
+  <a href="https://github.com/harshdwivediiiii/pathfinder-ai/issues">
+    <img src="https://img.shields.io/github/issues/harshdwivediiiii/pathfinder-ai?style=for-the-badge&color=ef4444" alt="Issues" />
+  </a>
+  <a href="https://github.com/harshdwivediiiii/pathfinder-ai/network/members">
+    <img src="https://img.shields.io/github/forks/harshdwivediiiii/pathfinder-ai?style=for-the-badge&color=3b82f6" alt="Forks" />
+  </a>
+</p>
 
 <br/>
 
-[**🚀 Try It Live**](https://pathfinder-ai.vercel.app) · [**📖 Documentation**](#-getting-started) · [**🤝 Contribute**](#-contributing) · [**🐛 Report Bug**](https://github.com/harshdwivediiiii/pathfinder-ai/issues)
+<p align="center">
+  <a href="https://pathfinder-ai.vercel.app"><strong>🚀 Try It Live</strong></a> &nbsp;·&nbsp;
+  <a href="#-getting-started"><strong>📖 Docs</strong></a> &nbsp;·&nbsp;
+  <a href="#-contributing"><strong>🤝 Contribute</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/harshdwivediiiii/pathfinder-ai/issues/new?template=bug_report.md"><strong>🐛 Report Bug</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/harshdwivediiiii/pathfinder-ai/issues/new?template=feature_request.md"><strong>💡 Request Feature</strong></a>
+</p>
 
 <br/>
 
@@ -53,49 +83,75 @@
 
 ## 🌟 What is PathFinder AI?
 
-**PathFinder AI** is an intelligent, full-stack career platform built for students, developers, and professionals navigating today's competitive job market. It combines the power of **Gemini AI** with a modern, production-grade interface to deliver a truly personalized career companion.
+**PathFinder AI** is a full-stack, AI-native career platform for students, developers, and professionals navigating today's hyper-competitive job market. It fuses the power of **Gemini AI** with a production-grade interface to deliver a genuinely personalized career companion — not just another generic tool.
 
-Whether you're chasing your first internship, making a career pivot, or leveling up to a senior role — PathFinder AI gives you the tools to get there faster.
+> Whether you're gunning for your first internship, pivoting industries, or leveling up to senior — PathFinder AI gives you the edge to get there, faster.
 
 ### Who is it for?
 
 | Audience | Use Case |
 |---|---|
-| 🎓 **Students & Graduates** | Build first resumes, prep for campus placements |
-| 💻 **Developers** | Craft ATS-optimized tech resumes, prep for system design interviews |
+| 🎓 **Students & Graduates** | Build first resumes, nail campus placements |
+| 💻 **Developers** | Craft ATS-optimized tech resumes, crush system design rounds |
 | 🔄 **Career Switchers** | Reframe experience for new industries with AI guidance |
-| 📈 **Professionals** | Stay ahead of market trends, salary benchmarks, in-demand skills |
+| 📈 **Professionals** | Track market trends, benchmark salaries, stay ahead of in-demand skills |
 
 ---
 
 ## ✨ Core Features
 
-### 📄 AI Resume Builder
-Generate ATS-friendly, role-tailored resumes in minutes. The AI analyzes your background and the target job description to produce bullet points that actually get past screening systems.
+<details>
+<summary><b>📄 AI Resume Builder</b></summary>
 
-### ✉️ Cover Letter Generator
-Stop staring at a blank page. PathFinder AI writes tone-matched, personalized cover letters for each application — sounding like *you*, not a template.
+Generate ATS-friendly, role-tailored resumes in minutes. The AI analyzes your background against the target job description and produces high-impact bullet points that actually clear screening systems — not fluff that gets filtered out.
 
-### 🎯 Interview Prep
-Practice with adaptive, role-based interview questions. Get AI-powered feedback on your answers, identify gaps, and walk into every interview with confidence.
+</details>
 
-### 📊 Industry Insights Dashboard
-Real-time trends, salary data, and in-demand skill tracking across industries — so you always know where the market is heading.
+<details>
+<summary><b>✉️ Cover Letter Generator</b></summary>
 
-### 🗺️ Career Roadmap Generation
-Receive a personalized, step-by-step career roadmap based on your current skills, goals, and target role.
+Stop staring at a blank page. PathFinder AI writes tone-matched, personalized cover letters for each application — sounding like *you*, not a generic template. Every letter is crafted around the specific role and company.
 
-### 🔐 Secure Authentication
-Full session management, social login, and user profile handling via **Clerk** — zero-config auth that just works.
+</details>
 
-### 🎨 Premium UI/UX
-Smooth Framer Motion animations, responsive layouts, dark mode, and a polished design system built with TailwindCSS and ShadCN UI.
+<details>
+<summary><b>🎯 Interview Prep</b></summary>
+
+Practice with adaptive, role-based interview questions. Receive AI-powered feedback on your answers, pinpoint your weak spots, and walk into every interview armed with confidence instead of anxiety.
+
+</details>
+
+<details>
+<summary><b>📊 Industry Insights Dashboard</b></summary>
+
+Real-time market trends, salary benchmarks, and in-demand skill tracking across industries — so you always know exactly where the market is heading before everyone else does.
+
+</details>
+
+<details>
+<summary><b>🗺️ Career Roadmap Generation</b></summary>
+
+Get a personalized, step-by-step career roadmap built around your current skills, long-term goals, and target role. Clear milestones, not vague advice.
+
+</details>
+
+<details>
+<summary><b>🔐 Secure Authentication</b></summary>
+
+Full session management, social login (Google, GitHub), and user profile handling via **Clerk** — battle-tested auth with zero boilerplate and enterprise-grade security.
+
+</details>
+
+<details>
+<summary><b>🎨 Premium UI/UX</b></summary>
+
+Smooth Framer Motion animations, fully responsive layouts, dark mode, and a polished design system built on TailwindCSS + ShadCN UI. Feels good to use — every interaction is intentional.
+
+</details>
 
 ---
 
 ## 📸 Screenshots
-
-> Replace placeholder paths with actual screenshots from your `/public` directory.
 
 | Page | Preview |
 |---|---|
@@ -105,6 +161,8 @@ Smooth Framer Motion animations, responsive layouts, dark mode, and a polished d
 | 🗺️ Roadmap | ![Roadmap](public/screenshots/roadmap.png) |
 | 🔄 Onboarding | ![Onboarding](public/screenshots/onboarding.png) |
 | 📊 Analytics | ![Analytics](public/screenshots/analytics.png) |
+
+> 💡 Screenshots live in `/public/screenshots/`. Replace placeholders with actual captures after deployment.
 
 ---
 
@@ -129,15 +187,15 @@ Smooth Framer Motion animations, responsive layouts, dark mode, and a polished d
 
 | Layer | Technology | Purpose |
 |---|---|---|
-| **Framework** | Next.js 15 (App Router) | Full-stack React framework with server components |
-| **Language** | TypeScript | Type-safe development across the entire codebase |
+| **Framework** | Next.js 15 (App Router) | Full-stack React framework with RSC support |
+| **Language** | TypeScript | End-to-end type safety across the entire codebase |
 | **Styling** | TailwindCSS + ShadCN UI | Utility-first styling with accessible component primitives |
 | **Animations** | Framer Motion | Page transitions, scroll effects, micro-interactions |
 | **AI Engine** | Gemini API (Google AI) | Resume generation, cover letters, interview questions |
-| **Authentication** | Clerk.dev | Session management, social login, user profiles |
-| **ORM** | Prisma | Type-safe database access and migrations |
+| **Authentication** | Clerk.dev | Session management, OAuth, user profiles |
+| **ORM** | Prisma | Type-safe database access and schema migrations |
 | **Database** | PostgreSQL | Persistent storage for user data and generated content |
-| **Deployment** | Vercel | Edge-optimized hosting with CI/CD |
+| **Deployment** | Vercel | Edge-optimized hosting with CI/CD pipelines |
 
 ---
 
@@ -156,7 +214,6 @@ pathfinder-ai/
 │   │   ├── insights/           # Industry insights & analytics
 │   │   └── onboarding/         # New user onboarding flow
 │   ├── api/                    # API route handlers
-│   │   └── [...]/              # Server-side endpoints
 │   ├── layout.tsx              # Root layout with providers
 │   └── page.tsx                # Landing page
 │
@@ -167,7 +224,7 @@ pathfinder-ai/
 ├── lib/                        # Utility libraries
 │   ├── prisma.ts               # Prisma client singleton
 │   ├── gemini.ts               # Gemini AI configuration
-│   └── utils.ts                # Shared utility functions
+│   └── utils.ts                # Shared utilities
 │
 ├── hooks/                      # Custom React hooks
 ├── constants/                  # App-wide constants & config
@@ -180,8 +237,8 @@ pathfinder-ai/
 ├── public/                     # Static assets
 ├── styles/                     # Global CSS
 │
-├── .env.local                  # Local environment variables (gitignored)
-├── .env.example                # Environment variable template
+├── .env.local                  # Local env variables (gitignored)
+├── .env.example                # Environment template
 ├── next.config.ts              # Next.js configuration
 ├── tailwind.config.ts          # Tailwind configuration
 ├── tsconfig.json               # TypeScript configuration
@@ -194,11 +251,11 @@ pathfinder-ai/
 
 ### Prerequisites
 
-Make sure you have the following installed:
-
-- **Node.js** `v18.17+` — [Download](https://nodejs.org)
-- **npm** `v9+` or **pnpm** `v8+`
-- **PostgreSQL** database (local or cloud via [Neon](https://neon.tech), [Supabase](https://supabase.com), or [Railway](https://railway.app))
+| Tool | Version | Link |
+|---|---|---|
+| Node.js | `v18.17+` | [nodejs.org](https://nodejs.org) |
+| npm / pnpm | `v9+` / `v8+` | Bundled with Node |
+| PostgreSQL | Any recent | [Neon](https://neon.tech) · [Supabase](https://supabase.com) · [Railway](https://railway.app) |
 
 ---
 
@@ -219,26 +276,19 @@ pnpm install
 
 ### 3. Configure Environment Variables
 
-Copy the example file and fill in your values:
-
 ```bash
 cp .env.example .env.local
 ```
 
-See the full [Environment Variables](#-environment-variables) section below for details on each variable.
+Fill in your values — see the [Environment Variables](#-environment-variables) section for a full reference.
 
 ### 4. Set Up the Database
-
-Generate the Prisma client and run migrations:
 
 ```bash
 npx prisma generate
 npx prisma migrate dev --name init
-```
 
-Optionally seed the database with initial data:
-
-```bash
+# Optional: seed with sample data
 npx prisma db seed
 ```
 
@@ -248,32 +298,28 @@ npx prisma db seed
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000). You're in.
 
-> **💡 Keyless Mode:** When developing locally without Clerk keys configured, the app runs in keyless mode — auth routes redirect safely and protected dashboards won't crash. Great for UI-only development.
+> **💡 Keyless Mode:** Running without Clerk keys? The app runs safely in keyless mode — auth routes redirect gracefully and protected pages won't crash. Perfect for UI-only development.
 
 ---
 
 ## 🔑 Environment Variables
 
-Create a `.env.local` file in the root directory with the following variables:
+Create `.env.local` in the root and populate with:
 
 ```env
 # ─────────────────────────────────────────────
 # DATABASE
 # ─────────────────────────────────────────────
-# PostgreSQL connection string
-# Format: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
 DATABASE_URL="postgresql://user:password@localhost:5432/pathfinder"
 
 # ─────────────────────────────────────────────
 # CLERK AUTHENTICATION
 # ─────────────────────────────────────────────
-# Get these from https://dashboard.clerk.dev
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 
-# Auth redirect URLs
 NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
 NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
@@ -282,7 +328,6 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
 # ─────────────────────────────────────────────
 # AI ENGINE
 # ─────────────────────────────────────────────
-# Get your API key from https://ai.google.dev
 GEMINI_API_KEY=AIza...
 
 # ─────────────────────────────────────────────
@@ -294,14 +339,14 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 | Variable | Required | Description |
 |---|---|---|
 | `DATABASE_URL` | ✅ | PostgreSQL connection string for Prisma |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✅ | Clerk public key (safe to expose) |
-| `CLERK_SECRET_KEY` | ✅ | Clerk secret key (server-side only) |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✅ | Clerk public key (safe to expose client-side) |
+| `CLERK_SECRET_KEY` | ✅ | Clerk secret key (server-side only — never expose) |
 | `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | ✅ | Route for the sign-in page |
 | `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | ✅ | Route for the sign-up page |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | ✅ | Redirect after successful sign-in |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL` | ✅ | Redirect after successful sign-up |
-| `GEMINI_API_KEY` | ✅ | Google Gemini API key for AI features |
-| `NEXT_PUBLIC_APP_URL` | ⚪ | Base URL for the app (used in production) |
+| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | ✅ | Redirect destination after sign-in |
+| `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL` | ✅ | Redirect destination after sign-up |
+| `GEMINI_API_KEY` | ✅ | Google Gemini API key for all AI features |
+| `NEXT_PUBLIC_APP_URL` | ⚪ | Base URL used in production builds |
 
 ---
 
@@ -309,76 +354,70 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 | Script | Command | Description |
 |---|---|---|
-| Development | `npm run dev` | Start the dev server with hot reload at `localhost:3000` |
-| Production Build | `npm run build` | Create an optimized production build |
+| Dev Server | `npm run dev` | Start with hot reload at `localhost:3000` |
+| Production Build | `npm run build` | Optimized production build |
 | Production Server | `npm run start` | Serve the production build locally |
 | Lint | `npm run lint` | Run ESLint across the codebase |
-| Type Check | `npm run type-check` | Run TypeScript type checking |
-| Prisma Studio | `npx prisma studio` | Open a visual database browser at `localhost:5555` |
-| Generate Client | `npx prisma generate` | Regenerate the Prisma client after schema changes |
+| Type Check | `npm run type-check` | TypeScript strict type checking |
+| Prisma Studio | `npx prisma studio` | Visual database browser at `localhost:5555` |
+| Generate Client | `npx prisma generate` | Regenerate Prisma client after schema changes |
 | Migrate | `npx prisma migrate dev` | Apply pending migrations in development |
-| Reset DB | `npx prisma migrate reset` | Reset the database and re-run all migrations |
+| Reset DB | `npx prisma migrate reset` | Wipe and re-run all migrations from scratch |
 
 ---
 
 ## 🔐 Authentication Setup
 
-PathFinder AI uses **[Clerk](https://clerk.dev)** for authentication — handling sign-up, sign-in, session management, and user profiles with zero boilerplate.
+PathFinder AI uses **[Clerk](https://clerk.dev)** — handling sign-up, sign-in, session management, and user profiles with zero boilerplate and enterprise-grade security.
 
-### Setup Steps
+### Quick Setup
 
 1. Create a free account at [clerk.dev](https://clerk.dev)
 2. Create a new application in the Clerk Dashboard
 3. Copy your **Publishable Key** and **Secret Key**
-4. Add them to your `.env.local` file
-5. Configure allowed redirect URLs in the Clerk Dashboard to match your `NEXT_PUBLIC_CLERK_*` variables
+4. Add both to `.env.local`
+5. Set allowed redirect URLs in Clerk Dashboard to match your `NEXT_PUBLIC_CLERK_*` variables
 
 ### Clerk Features Used
 
-- Email/password authentication
-- Social OAuth (Google, GitHub)
-- Session tokens (automatically forwarded to API routes)
-- `<UserButton />` component for the profile menu
-- `auth()` / `currentUser()` helpers in Server Components
-- Middleware-based route protection
+- Email/password + Social OAuth (Google, GitHub)
+- Session tokens forwarded automatically to API routes
+- `<UserButton />` for the profile menu
+- `auth()` / `currentUser()` in Server Components
+- Middleware-based route protection via `middleware.ts`
 
-### Protected Routes
+### Route Protection
 
-Route protection is handled by Clerk middleware in `middleware.ts`. All routes under `/(main)/` require authentication and redirect unauthenticated users to `/sign-in`.
+All routes under `/(main)/` require authentication. Unauthenticated users are redirected to `/sign-in` automatically via Clerk middleware.
 
 ---
 
 ## 🗄️ Database Setup
 
-PathFinder AI uses **PostgreSQL** with **Prisma ORM** for all database operations.
+PathFinder AI uses **PostgreSQL** with **Prisma ORM** for all data operations — type-safe from schema to query.
 
 ### Recommended Providers
 
-| Provider | Free Tier | Notes |
+| Provider | Free Tier | Best For |
 |---|---|---|
-| [Neon](https://neon.tech) | ✅ 512MB | Serverless PostgreSQL, great for Vercel |
-| [Supabase](https://supabase.com) | ✅ 500MB | Full Postgres with extras |
-| [Railway](https://railway.app) | ✅ $5 credit | Simple setup |
-| Local PostgreSQL | N/A | Full control, requires local install |
+| [Neon](https://neon.tech) | ✅ 512MB | Serverless, Vercel-native |
+| [Supabase](https://supabase.com) | ✅ 500MB | Postgres + realtime extras |
+| [Railway](https://railway.app) | ✅ $5 credit | Simplest one-click setup |
+| Local PostgreSQL | — | Full control, offline dev |
 
-### Setup Steps
+### Setup
 
 ```bash
-# 1. Add your DATABASE_URL to .env.local
+# Add DATABASE_URL to .env.local, then:
 
-# 2. Generate the Prisma client
 npx prisma generate
-
-# 3. Push schema to the database (first time)
 npx prisma migrate dev --name init
 
-# 4. (Optional) Open Prisma Studio to browse your data
+# Optional: browse your data
 npx prisma studio
 ```
 
 ### After Schema Changes
-
-Whenever you modify `prisma/schema.prisma`:
 
 ```bash
 npx prisma migrate dev --name describe_your_change
@@ -389,34 +428,33 @@ npx prisma generate
 
 ## ☁️ Deployment
 
-PathFinder AI is optimized for **[Vercel](https://vercel.com)** deployment.
+PathFinder AI is optimized for **[Vercel](https://vercel.com)** deployment out of the box.
 
-### Deploy to Vercel (Recommended)
+### One-Click Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/harshdwivediiiii/pathfinder-ai)
 
-**Or manually:**
+> 🌐 **Live Demo:** [pathfinder-ai.vercel.app](https://pathfinder-ai.vercel.app)
+
+### Manual Deploy
 
 1. Fork this repository
-2. Import it into [vercel.com/new](https://vercel.com/new)
-3. Add all environment variables from `.env.example` in the Vercel project settings
-4. Deploy — Vercel will auto-detect Next.js and configure the build
+2. Import at [vercel.com/new](https://vercel.com/new)
+3. Add all env variables from `.env.example` in Vercel project settings
+4. Hit deploy — Vercel auto-detects Next.js and configures the build
 
-### Production Checklist
+### Pre-Launch Checklist
 
 - [ ] All environment variables added to Vercel project settings
-- [ ] `DATABASE_URL` points to a production-ready PostgreSQL database
-- [ ] Prisma migrations have been run against the production database
-- [ ] Clerk application configured with production keys and correct redirect URLs
+- [ ] `DATABASE_URL` points to a production PostgreSQL instance
+- [ ] Prisma migrations run against the production database
+- [ ] Clerk configured with production keys + correct redirect URLs
 - [ ] `NEXT_PUBLIC_APP_URL` set to your production domain
-- [ ] Custom domain configured (optional)
+- [ ] Custom domain configured (optional but recommended)
 
 ### Run Migrations in Production
 
-After deploying, run Prisma migrations against your production database:
-
 ```bash
-# Using the Vercel CLI or a direct connection
 DATABASE_URL="your_prod_db_url" npx prisma migrate deploy
 ```
 
@@ -424,651 +462,188 @@ DATABASE_URL="your_prod_db_url" npx prisma migrate deploy
 
 ## 🎨 UI/UX Highlights
 
-PathFinder AI features a premium, production-grade interface designed for clarity and delight.
+PathFinder AI ships with a premium, production-grade interface designed for clarity and delight — not just functionality.
 
 ### Framer Motion Animations
 - Smooth page transitions between routes
-- Staggered list and card reveals on mount
-- Scroll-triggered animations for landing sections
-- Hover micro-interactions on interactive elements
-- Loading skeleton states during async operations
+- Staggered card and list reveals on mount
+- Scroll-triggered animations on landing sections
+- Hover micro-interactions on all interactive elements
+- Skeleton loading states during async operations
 
 ### Design System
 Built on **ShadCN UI** primitives with a custom TailwindCSS theme:
-- Consistent spacing, typography, and color scales
-- Full dark mode support with `next-themes`
-- Accessible components (ARIA labels, keyboard navigation, focus rings)
-- Responsive layouts for desktop, tablet, and mobile
+- Consistent spacing scale, typography, and color system
+- Full dark mode support via `next-themes`
+- ARIA-accessible components (keyboard nav, focus rings, screen reader labels)
+- Fully responsive across mobile, tablet, and desktop
 
 ### Component Architecture
 - Modular, reusable components in `/components`
-- Server Components used where possible for performance
+- Server Components used wherever possible to minimize JS bundle
 - Client Components isolated to interactive UI islands
-- Suspense boundaries with meaningful loading states
+- `<Suspense>` boundaries with meaningful, contextual loading states
 
 ---
 
 ## ⚡ Performance
 
-PathFinder AI is built with performance as a first-class concern.
+Performance is a first-class concern, not an afterthought.
 
 ### Next.js App Router Optimizations
-- **React Server Components** for zero-JS data-fetching components
-- **Streaming** with `<Suspense>` for incremental page rendering
-- **Route-level code splitting** — only load what each page needs
-- **`next/image`** for automatic image optimization and lazy loading
-- **`next/font`** for optimized, zero-layout-shift font loading
+
+| Optimization | How |
+|---|---|
+| Zero-JS data fetching | React Server Components for all non-interactive data |
+| Incremental rendering | `<Suspense>` + streaming for page chunks |
+| Code splitting | Route-level — only load what each page actually needs |
+| Image optimization | `next/image` with lazy loading + auto-format |
+| Font optimization | `next/font` — zero layout shift, self-hosted |
 
 ### Database & API
-- Prisma query optimization with selective `select` fields
-- API routes use edge-compatible patterns where applicable
-- Efficient re-fetching patterns to minimize redundant AI API calls
+- Selective Prisma `select` fields — no over-fetching
+- Edge-compatible API route patterns
+- Deduped fetch calls to minimize redundant AI API usage
 
 ### Caching Strategy
-- Next.js `fetch` caching for stable AI-generated content
-- Revalidation strategies tuned per data type (insights vs. user data)
+- `fetch` cache for stable AI-generated content
+- Per-type revalidation (insights refreshed more aggressively than user-generated content)
 
 ---
 
 ## 🗺️ Roadmap
 
-The following improvements are planned for future releases:
+Planned for upcoming releases — contributions welcome!
 
-- [ ] **Job Board Integration** — Pull live job listings and auto-match to your resume
-- [ ] **LinkedIn Import** — Parse LinkedIn profiles to auto-populate resume builder
-- [ ] **Resume Scoring** — Real-time ATS score with improvement suggestions
-- [ ] **AI Chat Assistant** — Conversational career guidance with streaming responses
-- [ ] **Multi-language Support** — Internationalization (i18n) for global users
-- [ ] **Portfolio Generator** — AI-generated personal portfolio pages
-- [ ] **Team / Organization Mode** — HR teams can manage candidate pipelines
-- [ ] **Mobile App** — React Native companion app
-- [ ] **Slack / Discord Integration** — Daily career tips and job alerts
+| Feature | Status | Description |
+|---|---|---|
+| 🔴 Job Board Integration | Planned | Pull live listings and auto-match to your resume |
+| 🔴 LinkedIn Import | Planned | Parse LinkedIn profiles to auto-populate resume builder |
+| 🔴 Resume Scoring | Planned | Real-time ATS score with targeted improvement tips |
+| 🟡 AI Chat Assistant | In Progress | Streaming conversational career guidance |
+| 🔴 Multi-language Support | Planned | i18n for global users |
+| 🔴 Portfolio Generator | Planned | AI-generated personal portfolio pages |
+| 🔴 Team / Org Mode | Planned | HR teams managing candidate pipelines |
+| 🔴 Mobile App | Planned | React Native companion |
+| 🔴 Slack / Discord Bot | Planned | Daily career tips and job alerts |
+
+> 🟡 In Progress &nbsp;&nbsp;🔴 Planned
+
+Want to pick one up? Check [open issues](https://github.com/harshdwivediiiii/pathfinder-ai/issues) and claim it!
 
 ---
 
 ## 🤝 Contributing
 
-PathFinder AI is actively participating in **GirlScript Summer of Code 2026 (GSSoC'26)** ❤️ and we welcome all contributors.
+PathFinder AI is actively participating in **GirlScript Summer of Code 2026 (GSSoC'26)** ❤️ and we warmly welcome all contributors — first-timers and veterans alike.
 
 ### Quick Start
 
 ```bash
-# 1. Fork the repository, then clone your fork
+# 1. Fork the repo, then clone your fork
 git clone https://github.com/YOUR_USERNAME/pathfinder-ai.git
 cd pathfinder-ai
 
-# 2. Create a feature branch
+# 2. Create a descriptive feature branch
 git checkout -b feature/your-feature-name
 
-# 3. Make your changes, commit following Conventional Commits
+# 3. Make your changes, commit with Conventional Commits
 git commit -m "feat: add resume analytics dashboard"
 
-# 4. Push and open a Pull Request
+# 4. Push and open a Pull Request against main
 git push origin feature/your-feature-name
 ```
 
 ### Commit Message Format
 
 ```
-feat:     new feature
-fix:      bug fix
-docs:     documentation only
-style:    formatting, no logic change
-refactor: code restructure, no behavior change
-test:     adding or updating tests
-chore:    build process or tooling
+feat:      new feature
+fix:       bug fix
+docs:      documentation only changes
+style:     formatting, whitespace (no logic change)
+refactor:  restructure without behavior change
+perf:      performance improvement
+test:      adding or updating tests
+chore:     build process or tooling
 ```
 
 ### PR Checklist
 
-Before opening a pull request:
-
-- [ ] Code tested locally and working as expected
-- [ ] UI changes are responsive across screen sizes
-- [ ] TypeScript types are correct (no `any` shortcuts)
-- [ ] Existing code conventions followed
+- [ ] Feature works correctly and tested locally
+- [ ] UI changes are responsive across all screen sizes
+- [ ] TypeScript types are sound — no `any` shortcuts
+- [ ] Follows existing code conventions and file structure
 - [ ] Documentation updated if behavior changed
-- [ ] Screenshots attached for UI changes
-- [ ] Branch synced with latest `main`, conflicts resolved
+- [ ] Screenshots or screen recording attached for UI changes
+- [ ] Branch synced with latest `main`, all conflicts resolved
 
-### Getting Assigned an Issue (GSSoC'26)
+### Getting Assigned (GSSoC'26)
 
 1. Browse [open issues](https://github.com/harshdwivediiiii/pathfinder-ai/issues)
-2. Comment with your planned approach
-3. Wait for maintainer approval before starting
-4. Begin work only after official assignment
+2. Drop a comment describing your planned approach
+3. Wait for maintainer assignment before coding
+4. Start work only after you've been officially assigned
 
-**Example comment:**
+**Good comment template:**
 ```
 Hi team 👋 I'd like to work on this issue under GSSoC'26.
 
-My approach:
-- [Describe what you'll change]
-- [Mention any libraries or patterns you'll use]
+Approach:
+- [What you'll change]
+- [Libraries or patterns you'll use]
+- [Estimated timeline]
 
-Could you please assign it to me?
+Could you please assign it to me? Thanks!
 ```
 
-### Good First Issues
+### Issue Labels to Look For
 
-Look for issues tagged:
-
-- `good first 
-## 📌 Table of Contents
-
-- [What is PathFinder AI?](#-what-is-pathfinder-ai)
-- [Core Features](#-core-features)
-- [Screenshots](#-screenshots)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [Available Scripts](#-available-scripts)
-- [Authentication Setup](#-authentication-setup)
-- [Database Setup](#-database-setup)
-- [Deployment](#-deployment)
-- [UI/UX Highlights](#-uiux-highlights)
-- [Performance](#-performance)
-- [Roadmap](#-roadmap)
-- [Contributing](#-contributing)
-- [Contributors](#-contributors)
-- [License](#-license)
-
----
-
-## 🌟 What is PathFinder AI?
-
-**PathFinder AI** is an intelligent, full-stack career platform built for students, developers, and professionals navigating today's competitive job market. It combines the power of **Gemini AI** with a modern, production-grade interface to deliver a truly personalized career companion.
-
-Whether you're chasing your first internship, making a career pivot, or leveling up to a senior role — PathFinder AI gives you the tools to get there faster.
-
-### Who is it for?
-
-| Audience | Use Case |
+| Label | Description |
 |---|---|
-| 🎓 **Students & Graduates** | Build first resumes, prep for campus placements |
-| 💻 **Developers** | Craft ATS-optimized tech resumes, prep for system design interviews |
-| 🔄 **Career Switchers** | Reframe experience for new industries with AI guidance |
-| 📈 **Professionals** | Stay ahead of market trends, salary benchmarks, in-demand skills |
+| `good first issue` | Great entry points for new contributors |
+| `help wanted` | Needs community attention |
+| `enhancement` | Feature additions |
+| `bug` | Something's broken |
+| `documentation` | Docs improvements |
 
 ---
 
-## ✨ Core Features
+## 👥 Contributors
 
-### 📄 AI Resume Builder
-Generate ATS-friendly, role-tailored resumes in minutes. The AI analyzes your background and the target job description to produce bullet points that actually get past screening systems.
+A huge thank you to everyone who has contributed to PathFinder AI! 🙌
 
-### ✉️ Cover Letter Generator
-Stop staring at a blank page. PathFinder AI writes tone-matched, personalized cover letters for each application — sounding like *you*, not a template.
-
-### 🎯 Interview Prep
-Practice with adaptive, role-based interview questions. Get AI-powered feedback on your answers, identify gaps, and walk into every interview with confidence.
-
-### 📊 Industry Insights Dashboard
-Real-time trends, salary data, and in-demand skill tracking across industries — so you always know where the market is heading.
-
-### 🗺️ Career Roadmap Generation
-Receive a personalized, step-by-step career roadmap based on your current skills, goals, and target role.
-
-### 🔐 Secure Authentication
-Full session management, social login, and user profile handling via **Clerk** — zero-config auth that just works.
-
-### 🎨 Premium UI/UX
-Smooth Framer Motion animations, responsive layouts, dark mode, and a polished design system built with TailwindCSS and ShadCN UI.
-
----
-
-## 📸 Screenshots
-
-> Replace placeholder paths with actual screenshots from your `/public` directory.
-
-| Page | Preview |
-|---|---|
-| 🏠 Landing Page | ![Landing](public/screenshots/landing.png) |
-| 🧭 Dashboard | ![Dashboard](public/screenshots/dashboard.png) |
-| 🤖 AI Assistant | ![AI Chat](public/screenshots/ai-assistant.png) |
-| 🗺️ Roadmap | ![Roadmap](public/screenshots/roadmap.png) |
-| 🔄 Onboarding | ![Onboarding](public/screenshots/onboarding.png) |
-| 📊 Analytics | ![Analytics](public/screenshots/analytics.png) |
-
----
-
-## 🛠️ Tech Stack
-
-<div align="center">
-
-[![Next.js](https://img.shields.io/badge/Next.js_15-000000?style=for-the-badge&logo=nextdotjs)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS_3-38bdf8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)](https://framer.com/motion)
-[![Gemini API](https://img.shields.io/badge/Gemini_API-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev)
-[![Prisma](https://img.shields.io/badge/Prisma_ORM-3982CE?style=for-the-badge&logo=prisma)](https://prisma.io)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgresql.org)
-[![Clerk](https://img.shields.io/badge/Clerk-6C47FF?style=for-the-badge&logo=clerk&logoColor=white)](https://clerk.dev)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
-
-</div>
+<a href="https://github.com/harshdwivediiiii/pathfinder-ai/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=harshdwivediiiii/pathfinder-ai" alt="Contributors" />
+</a>
 
 <br/>
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| **Framework** | Next.js 15 (App Router) | Full-stack React framework with server components |
-| **Language** | TypeScript | Type-safe development across the entire codebase |
-| **Styling** | TailwindCSS + ShadCN UI | Utility-first styling with accessible component primitives |
-| **Animations** | Framer Motion | Page transitions, scroll effects, micro-interactions |
-| **AI Engine** | Gemini API (Google AI) | Resume generation, cover letters, interview questions |
-| **Authentication** | Clerk.dev | Session management, social login, user profiles |
-| **ORM** | Prisma | Type-safe database access and migrations |
-| **Database** | PostgreSQL | Persistent storage for user data and generated content |
-| **Deployment** | Vercel | Edge-optimized hosting with CI/CD |
+> Want your avatar here? [Make a contribution](#-contributing) and join the wall!
 
 ---
 
-## 📂 Project Structure
+## 📄 License
 
-```
-pathfinder-ai/
-│
-├── app/                        # Next.js 15 App Router
-│   ├── (auth)/                 # Auth routes (sign-in, sign-up)
-│   ├── (main)/                 # Protected app routes
-│   │   ├── dashboard/          # User dashboard
-│   │   ├── resume/             # AI resume builder
-│   │   ├── cover-letter/       # Cover letter generator
-│   │   ├── interview/          # Interview prep module
-│   │   ├── insights/           # Industry insights & analytics
-│   │   └── onboarding/         # New user onboarding flow
-│   ├── api/                    # API route handlers
-│   │   └── [...]/              # Server-side endpoints
-│   ├── layout.tsx              # Root layout with providers
-│   └── page.tsx                # Landing page
-│
-├── components/                 # Reusable UI components
-│   ├── ui/                     # ShadCN base components
-│   └── [...]/                  # Feature-specific components
-│
-├── lib/                        # Utility libraries
-│   ├── prisma.ts               # Prisma client singleton
-│   ├── gemini.ts               # Gemini AI configuration
-│   └── utils.ts                # Shared utility functions
-│
-├── hooks/                      # Custom React hooks
-├── constants/                  # App-wide constants & config
-├── utils/                      # Helper functions
-│
-├── prisma/
-│   ├── schema.prisma           # Database schema
-│   └── migrations/             # Migration history
-│
-├── public/                     # Static assets
-├── styles/                     # Global CSS
-│
-├── .env.local                  # Local environment variables (gitignored)
-├── .env.example                # Environment variable template
-├── next.config.ts              # Next.js configuration
-├── tailwind.config.ts          # Tailwind configuration
-├── tsconfig.json               # TypeScript configuration
-└── package.json
-```
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full details.
 
 ---
 
-## 🚀 Getting Started
+<div align="center">
 
-### Prerequisites
+<br/>
 
-Make sure you have the following installed:
+**Built with ❤️ by [Harsh Dwivedi](https://github.com/harshdwivediiiii) and the open-source community**
 
-- **Node.js** `v18.17+` — [Download](https://nodejs.org)
-- **npm** `v9+` or **pnpm** `v8+`
-- **PostgreSQL** database (local or cloud via [Neon](https://neon.tech), [Supabase](https://supabase.com), or [Railway](https://railway.app))
+<br/>
 
----
+⭐ **If PathFinder AI helped you, please star the repo — it genuinely helps!** ⭐
 
-### 1. Clone the Repository
+<br/>
 
-```bash
-git clone https://github.com/harshdwivediiiii/pathfinder-ai.git
-cd pathfinder-ai
-```
+[![GitHub stars](https://img.shields.io/github/stars/harshdwivediiiii/pathfinder-ai?style=social)](https://github.com/harshdwivediiiii/pathfinder-ai/stargazers)
+&nbsp;&nbsp;
+[![Twitter Follow](https://img.shields.io/twitter/follow/harshdwivediiii?style=social)](https://twitter.com/harshdwivediiii)
 
-### 2. Install Dependencies
+<br/>
 
-```bash
-npm install
-# or
-pnpm install
-```
-
-### 3. Configure Environment Variables
-
-Copy the example file and fill in your values:
-
-```bash
-cp .env.example .env.local
-```
-
-See the full [Environment Variables](#-environment-variables) section below for details on each variable.
-
-### 4. Set Up the Database
-
-Generate the Prisma client and run migrations:
-
-```bash
-npx prisma generate
-npx prisma migrate dev --name init
-```
-
-Optionally seed the database with initial data:
-
-```bash
-npx prisma db seed
-```
-
-### 5. Start the Development Server
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-> **💡 Keyless Mode:** When developing locally without Clerk keys configured, the app runs in keyless mode — auth routes redirect safely and protected dashboards won't crash. Great for UI-only development.
-
----
-
-## 🔑 Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```env
-# ─────────────────────────────────────────────
-# DATABASE
-# ─────────────────────────────────────────────
-# PostgreSQL connection string
-# Format: postgresql://USER:PASSWORD@HOST:PORT/DATABASE
-DATABASE_URL="postgresql://user:password@localhost:5432/pathfinder"
-
-# ─────────────────────────────────────────────
-# CLERK AUTHENTICATION
-# ─────────────────────────────────────────────
-# Get these from https://dashboard.clerk.dev
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-
-# Auth redirect URLs
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/onboarding
-NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/onboarding
-
-# ─────────────────────────────────────────────
-# AI ENGINE
-# ─────────────────────────────────────────────
-# Get your API key from https://ai.google.dev
-GEMINI_API_KEY=AIza...
-
-# ─────────────────────────────────────────────
-# APP (OPTIONAL)
-# ─────────────────────────────────────────────
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-| Variable | Required | Description |
-|---|---|---|
-| `DATABASE_URL` | ✅ | PostgreSQL connection string for Prisma |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | ✅ | Clerk public key (safe to expose) |
-| `CLERK_SECRET_KEY` | ✅ | Clerk secret key (server-side only) |
-| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | ✅ | Route for the sign-in page |
-| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | ✅ | Route for the sign-up page |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL` | ✅ | Redirect after successful sign-in |
-| `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL` | ✅ | Redirect after successful sign-up |
-| `GEMINI_API_KEY` | ✅ | Google Gemini API key for AI features |
-| `NEXT_PUBLIC_APP_URL` | ⚪ | Base URL for the app (used in production) |
-
----
-
-## 📜 Available Scripts
-
-| Script | Command | Description |
-|---|---|---|
-| Development | `npm run dev` | Start the dev server with hot reload at `localhost:3000` |
-| Production Build | `npm run build` | Create an optimized production build |
-| Production Server | `npm run start` | Serve the production build locally |
-| Lint | `npm run lint` | Run ESLint across the codebase |
-| Type Check | `npm run type-check` | Run TypeScript type checking |
-| Prisma Studio | `npx prisma studio` | Open a visual database browser at `localhost:5555` |
-| Generate Client | `npx prisma generate` | Regenerate the Prisma client after schema changes |
-| Migrate | `npx prisma migrate dev` | Apply pending migrations in development |
-| Reset DB | `npx prisma migrate reset` | Reset the database and re-run all migrations |
-
----
-
-## 🔐 Authentication Setup
-
-PathFinder AI uses **[Clerk](https://clerk.dev)** for authentication — handling sign-up, sign-in, session management, and user profiles with zero boilerplate.
-
-### Setup Steps
-
-1. Create a free account at [clerk.dev](https://clerk.dev)
-2. Create a new application in the Clerk Dashboard
-3. Copy your **Publishable Key** and **Secret Key**
-4. Add them to your `.env.local` file
-5. Configure allowed redirect URLs in the Clerk Dashboard to match your `NEXT_PUBLIC_CLERK_*` variables
-
-### Clerk Features Used
-
-- Email/password authentication
-- Social OAuth (Google, GitHub)
-- Session tokens (automatically forwarded to API routes)
-- `<UserButton />` component for the profile menu
-- `auth()` / `currentUser()` helpers in Server Components
-- Middleware-based route protection
-
-### Protected Routes
-
-Route protection is handled by Clerk middleware in `middleware.ts`. All routes under `/(main)/` require authentication and redirect unauthenticated users to `/sign-in`.
-
----
-
-## 🗄️ Database Setup
-
-PathFinder AI uses **PostgreSQL** with **Prisma ORM** for all database operations.
-
-### Recommended Providers
-
-| Provider | Free Tier | Notes |
-|---|---|---|
-| [Neon](https://neon.tech) | ✅ 512MB | Serverless PostgreSQL, great for Vercel |
-| [Supabase](https://supabase.com) | ✅ 500MB | Full Postgres with extras |
-| [Railway](https://railway.app) | ✅ $5 credit | Simple setup |
-| Local PostgreSQL | N/A | Full control, requires local install |
-
-### Setup Steps
-
-```bash
-# 1. Add your DATABASE_URL to .env.local
-
-# 2. Generate the Prisma client
-npx prisma generate
-
-# 3. Push schema to the database (first time)
-npx prisma migrate dev --name init
-
-# 4. (Optional) Open Prisma Studio to browse your data
-npx prisma studio
-```
-
-### After Schema Changes
-
-Whenever you modify `prisma/schema.prisma`:
-
-```bash
-npx prisma migrate dev --name describe_your_change
-npx prisma generate
-```
-
----
-
-## ☁️ Deployment
-
-PathFinder AI is optimized for **[Vercel](https://vercel.com)** deployment.
-
-### Deploy to Vercel (Recommended)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/harshdwivediiiii/pathfinder-ai)
-
-> 🌐 **Live Demo:** [pathfinder-ai-auta.vercel.app](https://pathfinder-ai-auta.vercel.app)
-
-**Or manually:**
-
-1. Fork this repository
-2. Import it into [vercel.com/new](https://vercel.com/new)
-3. Add all environment variables from `.env.example` in the Vercel project settings
-4. Deploy — Vercel will auto-detect Next.js and configure the build
-
-### Production Checklist
-
-- [ ] All environment variables added to Vercel project settings
-- [ ] `DATABASE_URL` points to a production-ready PostgreSQL database
-- [ ] Prisma migrations have been run against the production database
-- [ ] Clerk application configured with production keys and correct redirect URLs
-- [ ] `NEXT_PUBLIC_APP_URL` set to your production domain
-- [ ] Custom domain configured (optional)
-
-### Run Migrations in Production
-
-After deploying, run Prisma migrations against your production database:
-
-```bash
-# Using the Vercel CLI or a direct connection
-DATABASE_URL="your_prod_db_url" npx prisma migrate deploy
-```
-
----
-
-## 🎨 UI/UX Highlights
-
-PathFinder AI features a premium, production-grade interface designed for clarity and delight.
-
-### Framer Motion Animations
-- Smooth page transitions between routes
-- Staggered list and card reveals on mount
-- Scroll-triggered animations for landing sections
-- Hover micro-interactions on interactive elements
-- Loading skeleton states during async operations
-
-### Design System
-Built on **ShadCN UI** primitives with a custom TailwindCSS theme:
-- Consistent spacing, typography, and color scales
-- Full dark mode support with `next-themes`
-- Accessible components (ARIA labels, keyboard navigation, focus rings)
-- Responsive layouts for desktop, tablet, and mobile
-
-### Component Architecture
-- Modular, reusable components in `/components`
-- Server Components used where possible for performance
-- Client Components isolated to interactive UI islands
-- Suspense boundaries with meaningful loading states
-
----
-
-## ⚡ Performance
-
-PathFinder AI is built with performance as a first-class concern.
-
-### Next.js App Router Optimizations
-- **React Server Components** for zero-JS data-fetching components
-- **Streaming** with `<Suspense>` for incremental page rendering
-- **Route-level code splitting** — only load what each page needs
-- **`next/image`** for automatic image optimization and lazy loading
-- **`next/font`** for optimized, zero-layout-shift font loading
-
-### Database & API
-- Prisma query optimization with selective `select` fields
-- API routes use edge-compatible patterns where applicable
-- Efficient re-fetching patterns to minimize redundant AI API calls
-
-### Caching Strategy
-- Next.js `fetch` caching for stable AI-generated content
-- Revalidation strategies tuned per data type (insights vs. user data)
-
----
-
-## 🗺️ Roadmap
-
-The following improvements are planned for future releases:
-
-- [ ] **Job Board Integration** — Pull live job listings and auto-match to your resume
-- [ ] **LinkedIn Import** — Parse LinkedIn profiles to auto-populate resume builder
-- [ ] **Resume Scoring** — Real-time ATS score with improvement suggestions
-- [ ] **AI Chat Assistant** — Conversational career guidance with streaming responses
-- [ ] **Multi-language Support** — Internationalization (i18n) for global users
-- [ ] **Portfolio Generator** — AI-generated personal portfolio pages
-- [ ] **Team / Organization Mode** — HR teams can manage candidate pipelines
-- [ ] **Mobile App** — React Native companion app
-- [ ] **Slack / Discord Integration** — Daily career tips and job alerts
-
----
-
-## 🤝 Contributing
-
-PathFinder AI is actively participating in **GirlScript Summer of Code 2026 (GSSoC'26)** ❤️ and we welcome all contributors.
-
-### Quick Start
-
-```bash
-# 1. Fork the repository, then clone your fork
-git clone https://github.com/YOUR_USERNAME/pathfinder-ai.git
-cd pathfinder-ai
-
-# 2. Create a feature branch
-git checkout -b feature/your-feature-name
-
-# 3. Make your changes, commit following Conventional Commits
-git commit -m "feat: add resume analytics dashboard"
-
-# 4. Push and open a Pull Request
-git push origin feature/your-feature-name
-```
-
-### Commit Message Format
-
-```
-feat:     new feature
-fix:      bug fix
-docs:     documentation only
-style:    formatting, no logic change
-refactor: code restructure, no behavior change
-test:     adding or updating tests
-chore:    build process or tooling
-```
-
-### PR Checklist
-
-Before opening a pull request:
-
-- [ ] Code tested locally and working as expected
-- [ ] UI changes are responsive across screen sizes
-- [ ] TypeScript types are correct (no `any` shortcuts)
-- [ ] Existing code conventions followed
-- [ ] Documentation updated if behavior changed
-- [ ] Screenshots attached for UI changes
-- [ ] Branch synced with latest `main`, conflicts resolved
-
-### Getting Assigned an Issue (GSSoC'26)
-
-1. Browse [open issues](https://github.com/harshdwivediiiii/pathfinder-ai/issues)
-2. Comment with your planned approach
-3. Wait for maintainer approval before starting
-4. Begin work only after official assignment
-
-**Example comment:**
-```
-Hi team 👋 I'd like to work on this issue under GSSoC'26.
-
-My approach:
-- [Describe what you'll change]
-- [Mention any libraries or patterns you'll
+</div>
