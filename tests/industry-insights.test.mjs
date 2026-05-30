@@ -2,16 +2,21 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   buildSecurePrompt: vi.fn((input) => `secure:${input.untrustedData[0].value}`),
-  generateGeminiContent: vi.fn(),
+  cachedGenerateGeminiContent: vi.fn(),
 }));
 
 vi.mock("@/lib/prompt-safety", () => ({
   buildSecurePrompt: mocks.buildSecurePrompt,
 }));
 
-vi.mock("@/lib/gemini", () => ({
-  generateGeminiContent: mocks.generateGeminiContent,
-}));
+vi.mock("../lib/cache/index.js", async () => {
+  const actual = await vi.importActual("../lib/cache/index.js");
+
+  return {
+    ...actual,
+    cachedGenerateGeminiContent: mocks.cachedGenerateGeminiContent,
+  };
+});
 
 import {
   generateIndustryInsightData,
@@ -24,7 +29,7 @@ describe("industry insights helper", () => {
   });
 
   it("uses grounded sources when Gemini search succeeds", async () => {
-    mocks.generateGeminiContent.mockResolvedValue({
+    mocks.cachedGenerateGeminiContent.mockResolvedValue({
       response: {
         text: () =>
           JSON.stringify({
@@ -66,17 +71,21 @@ describe("industry insights helper", () => {
       title: "Salary A",
       uri: "https://example.com/salary-a",
     });
-    expect(mocks.generateGeminiContent).toHaveBeenCalledWith(
+    expect(mocks.cachedGenerateGeminiContent).toHaveBeenCalledWith(
       "secure:technology",
       expect.objectContaining({
         tools: [{ googleSearchRetrieval: {} }],
         generationConfig: { responseMimeType: "application/json" },
+      }),
+      expect.objectContaining({
+        key: expect.stringMatching(/^industry:/),
+        ttl: 5 * 60 * 1000,
       })
     );
   });
 
   it("falls back to an estimate when grounded search fails", async () => {
-    mocks.generateGeminiContent
+    mocks.cachedGenerateGeminiContent
       .mockRejectedValueOnce(new Error("search unavailable"))
       .mockResolvedValueOnce({
         response: {
@@ -106,14 +115,14 @@ describe("industry insights helper", () => {
 
     expect(insights.isGrounded).toBe(false);
     expect(insights.salaryRanges[0].citations).toEqual([]);
-    expect(mocks.generateGeminiContent).toHaveBeenNthCalledWith(
+    expect(mocks.cachedGenerateGeminiContent).toHaveBeenNthCalledWith(
       1,
       "secure:finance",
       expect.objectContaining({
         tools: [{ googleSearchRetrieval: {} }],
       })
     );
-    expect(mocks.generateGeminiContent).toHaveBeenNthCalledWith(
+    expect(mocks.cachedGenerateGeminiContent).toHaveBeenNthCalledWith(
       2,
       "secure:finance",
       expect.objectContaining({

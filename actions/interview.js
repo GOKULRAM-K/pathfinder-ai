@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { generateGeminiContent } from "@/lib/gemini";
+import { cachedGenerateGeminiContent, QUIZ_CACHE_TTL_MS, generateCacheKey } from "@/lib/cache";
 import { buildSecurePrompt } from "@/lib/prompt-safety";
 import { buildUserProfileContext } from "@/lib/ai-context";
 import { parseAIJson } from "@/lib/validate";
@@ -146,7 +147,7 @@ export async function generateQuiz(category = "Technical") {
   const profileContext = buildUserProfileContext(user);
 
   const normalizedSkills = user.skills
-    ? Array.from(new Set(user.skills.map((s) => String(s).trim()).filter(Boolean)))
+    ? Array.from(new Set(user.skills.map((s) => String(s).trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b))
     : [];
 
   const categoryPrompts = {

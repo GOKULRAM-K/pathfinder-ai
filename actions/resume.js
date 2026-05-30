@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
+import { cachedGenerateGeminiContent, RESUME_IMPROVEMENT_CACHE_TTL_MS, generateCacheKey } from "@/lib/cache";
 import { generateGeminiContent } from "@/lib/gemini";
 import { buildSecurePrompt, generateWithStructuredOutput } from "@/lib/prompt-safety";
 import { buildUserProfileContext } from "@/lib/ai-context";
@@ -108,7 +109,12 @@ Respond ONLY with a valid JSON object in this exact format (no markdown, no code
       schemaDescription,
       schema: resumeImprovementOutputSchema,
       generateFn: async (p) => {
-        const raw = await generateGeminiContent(p);
+        const raw = p === prompt
+          ? await cachedGenerateGeminiContent(p, {}, {
+              key: generateCacheKey("improve", current, type, user.industry),
+              ttl: RESUME_IMPROVEMENT_CACHE_TTL_MS,
+            })
+          : await generateGeminiContent(p);
         return raw.response.text().trim();
       },
       validateFn: validateOutput,
