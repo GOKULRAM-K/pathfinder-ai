@@ -3,9 +3,10 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { generateGeminiContent } from "@/lib/gemini";
+import { ATS_ANALYSIS_CACHE_TTL_MS, cachedGenerateGeminiContent, generateCacheKey } from "@/lib/cache";
 import { buildSecurePrompt } from "@/lib/prompt-safety";
-import { validateInput } from "@/lib/validate";
+import { buildUserProfileContext } from "@/lib/ai-context";
+import { validateInput, parseAIJson } from "@/lib/validate";
 import { atsAnalysisSchema } from "@/lib/schemas/forms";
 import { normalizeAtsSuggestions } from "@/lib/ats";
 
@@ -34,6 +35,7 @@ export async function analyzeATS(rawParams) {
     }
 
     const prompt = buildSecurePrompt({
+      context: buildUserProfileContext(user),
       task: "You are an expert ATS (Applicant Tracking System) analyst and career coach. Analyze the resume against the job description and return a detailed ATS compatibility report.",
       untrustedData: [
         { label: "resumeContent", value: resumeContent, maxLength: 8000 },
@@ -64,10 +66,7 @@ IMPORTANT: Return ONLY valid JSON. No markdown, no explanation outside the JSON.
     });
 
     const result = await generateGeminiContent(prompt);
-    const text = result.response.text().trim();
-
-    const cleanJsonText = text.replace(/^```json\s*/i, "").replace(/```$/, "").trim();
-    const parsedAnalysis = JSON.parse(cleanJsonText);
+    const parsedAnalysis = parseAIJson(result.response.text());
 
     const matchedKeywords = Array.isArray(parsedAnalysis.matchedKeywords) ? parsedAnalysis.matchedKeywords.map(String) : [];
     const missingKeywords = Array.isArray(parsedAnalysis.missingKeywords) ? parsedAnalysis.missingKeywords.map(String) : [];
