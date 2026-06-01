@@ -56,7 +56,7 @@ export async function OPTIONS() {
 }
 
 export async function POST(request) {
-  
+  const isDev = process.env.NODE_ENV !== "production";
   const { userId } = await auth();
   const endpoint = "/api/generate";
   const subject = getRateLimitIdentifier(request, userId);
@@ -260,10 +260,12 @@ Rules:
             finalText: existingCachedResponse,
             hasContent: true,
             cached: true,
-            debug: {
-              ...aiContext.debug,
-              promptContext: aiContext.context,
-            },
+            ...(isDev && {
+              debug: {
+                ...aiContext.debug,
+                promptContext: aiContext.context,
+              },
+            }),
           })
         );
 
@@ -359,10 +361,12 @@ Rules:
         safeEnqueue("done", {
           finalText: fullResponse,
           hasContent: Boolean(fullResponse.trim()),
-          debug: {
-            ...aiContext.debug,
-            promptContext: aiContext.context,
-          },
+          ...(isDev && {
+            debug: {
+              ...aiContext.debug,
+              promptContext: aiContext.context,
+            },
+          }),
         });
         safeClose();
       } catch (error) {
