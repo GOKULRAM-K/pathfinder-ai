@@ -255,7 +255,6 @@ export async function saveQuizResult(questions, answers, score, category = "Tech
   // Map user answers to question outcomes
   const questionResults = [];
   const wrongAnswers = [];
-  const profileContext = buildUserProfileContext(user);
 
   validatedQuestions.forEach((q, index) => {
     if (!q?.question) return;
@@ -282,6 +281,7 @@ export async function saveQuizResult(questions, answers, score, category = "Tech
   let improvementTip = null;
 
   if (wrongAnswers.length > 0) {
+    const profileContext = buildUserProfileContext(user);
     const wrongText = wrongAnswers
       .slice(0, 3)
       .map((q) => `Q: ${q.question}\nCorrect answer was: ${q.correctAnswer}\nUser answered: ${q.userAnswer || "No Answer"}`)
