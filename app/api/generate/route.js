@@ -1,8 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { generateGeminiContentStream } from "@/lib/gemini";
 import { db } from "@/lib/prisma";
+import { isFeatureEnabled } from "@/lib/ai-gating";
 import { buildSecurePrompt } from "@/lib/prompt-safety";
 import { buildUserAiContext } from "@/lib/ai-context";
+import { chatPromptSchema as chatPromptSchemaStr } from "@/lib/schemas/chat";
 import {
   getRateLimitIdentifier,
   enforceRateLimit,
@@ -18,6 +20,10 @@ import {
 import {
   getCachedResponse,
   cacheResponse,
+  buildCacheKey,
+  getPendingGenerationRequest,
+  setPendingGenerationRequest,
+  deletePendingGenerationRequest,
 } from "@/lib/cache/cache-service";
 import { respondError, respondSseError, ERROR_CODES } from "@/lib/api/error-handler";
 import { validateInput, validateId } from "@/lib/validate";
@@ -117,12 +123,10 @@ export async function POST(request) {
   }
 
   if (!userId) {
-    return respondSseError(ERROR_CODES.UNAUTHORIZED);
+    return respondSseError(request, ERROR_CODES.UNAUTHORIZED);
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
+  if (!isFeatureEnabled("chat")) {
     return respondError(ERROR_CODES.INTERNAL_SERVER_ERROR, "GEMINI_API_KEY is not configured");
   }
 
@@ -150,7 +154,13 @@ export async function POST(request) {
     return respondError(ERROR_CODES.VALIDATION_ERROR, "Invalid request body");
   }
 
-  const promptCheck = preparePromptForGeneration(prompt);
+  const validation = chatPromptSchemaStr.safeParse(prompt);
+  if (!validation.success) {
+    return buildSseErrorResponse(validation.error.errors[0].message, 400);
+  }
+
+  const validatedPrompt = validation.data;
+  const promptCheck = preparePromptForGeneration(validatedPrompt);
 
   if (!promptCheck.allowed) {
     return buildSseErrorResponse(promptCheck.message, promptCheck.status);
@@ -164,6 +174,98 @@ export async function POST(request) {
 
   if (!user) {
     return respondError(ERROR_CODES.USER_NOT_FOUND);
+  }
+  const cacheUser = userId || request.headers.get("x-forwarded-for") || "anonymous";
+  const cacheKey = buildCacheKey(cacheUser, promptCheck.prompt);
+
+  const existingCachedResponse = await getCachedResponse(
+    cacheUser,
+    promptCheck.prompt
+  );
+
+  if (existingCachedResponse) {
+  const encoder = new TextEncoder();
+
+  const cachedStream = new ReadableStream({
+    start(controller) {
+      controller.enqueue(
+        encodeSseEvent(encoder, "delta", {
+          text: existingCachedResponse,
+          cached: true,
+        })
+      );
+
+      controller.enqueue(
+        encodeSseEvent(encoder, "done", {
+          finalText: existingCachedResponse,
+          hasContent: true,
+          cached: true,
+        })
+      );
+
+      controller.close();
+    },
+  });
+
+  return new Response(cachedStream, {
+    headers: {
+      ...SSE_HEADERS,
+      "X-Cache": "HIT",
+    },
+  });
+}
+
+  // Check for pending request (deduplication)
+  const pendingRequest = await getPendingGenerationRequest(
+    cacheUser,
+    promptCheck.prompt
+  );
+
+  if (pendingRequest) {
+    try {
+      await pendingRequest;
+    } catch (error) {
+      // Pending request failed, we'll proceed with our own generation
+      console.warn("[dedup] Pending request failed, proceeding with new generation");
+    }
+
+    const cachedAfterPending = await getCachedResponse(
+      cacheUser,
+      promptCheck.prompt
+    );
+
+    if (cachedAfterPending) {
+      const encoder = new TextEncoder();
+      const cachedStream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(
+            encodeSseEvent(encoder, "delta", {
+              text: cachedAfterPending,
+              cached: true,
+              deduped: true,
+            })
+          );
+
+          controller.enqueue(
+            encodeSseEvent(encoder, "done", {
+              finalText: cachedAfterPending,
+              hasContent: true,
+              cached: true,
+              deduped: true,
+            })
+          );
+
+          controller.close();
+        },
+      });
+
+      return new Response(cachedStream, {
+        headers: {
+          ...SSE_HEADERS,
+          "X-Cache": "DEDUP",
+        },
+      });
+    }
   }
 
   if (conversationId) {
@@ -219,8 +321,19 @@ export async function POST(request) {
       })
     : [];
 
+  let generationCompletionResolve, generationCompletionReject;
+  const generationCompletionPromise = new Promise((resolve, reject) => {
+    generationCompletionResolve = resolve;
+    generationCompletionReject = reject;
+  });
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      let fullResponse = "";
+      let streamClosed = false;
   const aiContext = buildUserAiContext(user, recentMessages.reverse());
-  const cacheUser = userId || request.headers.get("x-forwarded-for") || "anonymous";
+  const clientIp = request.headers.get("x-real-ip") || "anonymous";
+  const cacheUser = userId || clientIp;
 
   const restrictedPrompt = buildSecurePrompt({
     context: aiContext.context,
@@ -411,6 +524,7 @@ Rules:
           }),
         });
         safeClose();
+        generationCompletionResolve(fullResponse);
       } catch (error) {
         if (abortController.signal.aborted) {
           safeClose();
@@ -422,12 +536,19 @@ Rules:
           message: error?.message || "Unknown error",
         });
         safeClose();
+        generationCompletionReject(error);
       }
     },
     cancel(reason) {
       console.warn("SSE stream cancelled by client connection abort:", reason);
       abortController.abort();
     },
+  });
+
+  // Set this request as pending for deduplication
+  setPendingGenerationRequest(cacheUser, promptCheck.prompt, generationCompletionPromise);
+  generationCompletionPromise.finally(() => {
+    deletePendingGenerationRequest(cacheUser, promptCheck.prompt);
   });
 
   return new Response(stream, {

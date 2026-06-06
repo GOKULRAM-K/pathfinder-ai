@@ -107,6 +107,10 @@ export default function useStreamFetch() {
           prompt,
           conversationId,
         }),
+        signal: controller.signal,
+      };
+
+      const response = await fetch("/api/generate", fetchOptions);
         ...(signalToUse ? { signal: signalToUse } : {}),
       });
 

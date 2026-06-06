@@ -9,6 +9,7 @@ import { buildUserProfileContext } from "@/lib/ai-context";
 import { validateInput, validateOutput } from "@/lib/validate";
 import { quizCategorySchema, quizResultSaveSchema } from "@/lib/schemas/forms";
 import { interviewQuestionsOutputSchema } from "@/lib/schemas/outputs";
+import { checkRateLimit, formatResetTime } from "@/lib/rate-limit-actions";
 
 // Fallback MCQ questions in case Gemini generation fails
 const FALLBACK_QUESTIONS = [
@@ -131,6 +132,10 @@ export async function generateQuiz(category = "Technical") {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
+  const quizLimit = await checkRateLimit(userId, "quiz");
+  if (!quizLimit.allowed) {
+    throw new Error(`Quiz generation limit reached. Resets in ${formatResetTime(quizLimit.resetAt)}.`);
+  }
   const categoryValidation = validateInput(quizCategorySchema, { category });
   if (!categoryValidation.success) return { success: false, errors: categoryValidation.errors };
 
@@ -166,13 +171,12 @@ export async function generateQuiz(category = "Technical") {
   const categoryIntro = categoryPrompts[validatedCategory];
 
   const prompt = buildSecurePrompt({
-    context: profileContext,
+    context: `${profileContext}\n\nThe candidate has listed their industry, skills, and a quiz category below.`,
     task: `You are a highly experienced hiring manager and strict quiz generator.
 
 ${categoryIntro}
 
 Generate EXACTLY 10 UNIQUE MCQ questions.`,
-    context: "The candidate has listed their industry, skills, and a quiz category below.",
     untrustedData: [
       { label: "industry", value: user.industry || "software", maxLength: 200 },
       { label: "skills", value: normalizedSkills.join(", ") || "Not specified", maxLength: 1000 },
@@ -226,6 +230,11 @@ Return ONLY a valid JSON object matching this schema. Do not output any markdown
 export async function saveQuizResult(questions, answers, score, category = "Technical") {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
+  
+  const feedbackLimit = await checkRateLimit(userId, "quizFeedback");
+  if (!feedbackLimit.allowed) {
+    throw new Error(`Quiz feedback limit reached. Resets in ${formatResetTime(feedbackLimit.resetAt)}.`);
+  }
 
   const validation = validateInput(quizResultSaveSchema, { questions, answers, score, category });
   if (!validation.success) return { success: false, errors: validation.errors };
@@ -245,7 +254,6 @@ export async function saveQuizResult(questions, answers, score, category = "Tech
   // Map user answers to question outcomes
   const questionResults = [];
   const wrongAnswers = [];
-  const profileContext = buildUserProfileContext(user);
 
   validatedQuestions.forEach((q, index) => {
     if (!q?.question) return;
@@ -272,6 +280,7 @@ export async function saveQuizResult(questions, answers, score, category = "Tech
   let improvementTip = null;
 
   if (wrongAnswers.length > 0) {
+    const profileContext = buildUserProfileContext(user);
     const wrongText = wrongAnswers
       .slice(0, 3)
       .map((q) => `Q: ${q.question}\nCorrect answer was: ${q.correctAnswer}\nUser answered: ${q.userAnswer || "No Answer"}`)

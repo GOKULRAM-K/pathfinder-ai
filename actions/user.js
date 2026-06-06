@@ -33,18 +33,14 @@ export async function updateUser(data) {
     // Generate industry insights outside the DB transaction to avoid
     // long-running external calls inside a DB tx (which can cause timeouts).
     let precomputedInsights = null;
-    let existingInsight = await db.industryInsight.findUnique({
-      where: { industry: profileData.industry },
-    });
-
-    if (!existingInsight) {
-      try {
-        precomputedInsights = await generateAIInsights(profileData.industry, profileData);
-      } catch (e) {
-        // generateAIInsights already handles fallbacks, but guard here
-        console.error("Failed to generate insights pre-transaction:", e);
-        precomputedInsights = null;
-      }
+    try {
+      precomputedInsights = await generateAIInsights(
+        profileData.industry,
+        profileData
+      );
+    } catch (e) {
+      console.error("Failed to generate insights pre-transaction:", e);
+      precomputedInsights = null;
     }
 
     const result = await db.$transaction(
@@ -52,6 +48,24 @@ export async function updateUser(data) {
         /* -----------------------------------------------------------
          * 1. Ensure an IndustryInsight row exists (create if missing)
          * --------------------------------------------------------- */
+        const industryInsight = precomputedInsights
+          ? await tx.industryInsight.upsert({
+              where: { industry: data.industry },
+              update: {},
+              create: {
+                industry: data.industry,
+                ...precomputedInsights,
+                nextUpdate: getIndustryInsightRefreshTime(),
+              },
+            })
+          : await tx.industryInsight.findUnique({
+              where: { industry: data.industry },
+            });
+
+        if (!industryInsight) {
+          throw new Error(
+            "Industry insights are currently unavailable. Please try again."
+          );
         let industryInsight = await tx.industryInsight.findUnique({
           where: { industry: profileData.industry },
         });
@@ -80,7 +94,7 @@ export async function updateUser(data) {
             careerGoals: profileData.careerGoals ?? null,
             experience: profileData.experience ?? null,
             bio: profileData.bio ?? null,
-            skills: profileData.skills ?? null,
+            skills: profileData.skills ?? [],
           },
         });
 
@@ -123,9 +137,11 @@ export async function getUserOnboardingStatus() {
     const email = clerkUser.emailAddresses?.[0]?.emailAddress;
     if (!email) throw new Error("User email not found in Clerk!");
 
-    /* 2 ▸ create a brand-new row */
-    user = await db.user.create({
-      data: {
+    /* 2 ▸ create a brand-new row (use upsert to prevent race conditions) */
+    user = await db.user.upsert({
+      where: { clerkUserId: userId },
+      update: {},
+      create: {
         clerkUserId: userId,
         email,
         name: clerkUser.firstName ?? "",
@@ -134,5 +150,16 @@ export async function getUserOnboardingStatus() {
     });
   }
 
-  return { isOnboarded: Boolean(user.industry), user, isSignedIn: true };
+  console.log("===== ONBOARDING DEBUG =====");
+console.log("User ID:", userId);
+console.log("User:", user);
+console.log("Industry:", user?.industry);
+console.log("isOnboarded:", Boolean(user?.industry));
+console.log("===========================");
+
+return {
+  isOnboarded: Boolean(user.industry),
+  user,
+  isSignedIn: true,
+};
 }
