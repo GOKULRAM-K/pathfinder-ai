@@ -360,12 +360,12 @@ Rules:
     ],
   });
 
-  const existingCachedResponse = await getCachedResponse(
+  const restrictedCachedResponse = await getCachedResponse(
     cacheUser,
     restrictedPrompt
   );
 
-  if (existingCachedResponse) {
+  if (restrictedCachedResponse) {
     if (conversationId && (user?.saveChatHistory ?? true)) {
       try {
         await db.$transaction(
@@ -374,7 +374,7 @@ Rules:
               data: {
                 conversationId,
                 role: "assistant",
-                content: existingCachedResponse,
+                content: restrictedCachedResponse,  
               },
             });
 
@@ -400,14 +400,14 @@ Rules:
       start(controller) {
         controller.enqueue(
           encodeSseEvent(encoder, "delta", {
-            text: existingCachedResponse,
+            text: restrictedCachedResponse,
             cached: true,
           })
         );
 
         controller.enqueue(
           encodeSseEvent(encoder, "done", {
-            finalText: existingCachedResponse,
+            finalText: restrictedCachedResponse,
             hasContent: true,
             cached: true,
             ...(isDev && {
