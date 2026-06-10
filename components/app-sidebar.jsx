@@ -37,7 +37,10 @@ import {
   TrendingUp,
   FileSignature,
   BrainCircuit,
-  LayoutList
+  LayoutList,
+  Coffee,
+  ShieldAlert,
+  Compass
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -70,6 +73,7 @@ const MENU_GROUPS = [
       { href: "/interview/star-builder", label: "STAR Builder", icon: <Star className="h-4 w-4 text-yellow-500" /> },
       { href: "/interview/cheat-sheet", label: "Cheat Sheet", icon: <FileSearch className="h-4 w-4 text-zinc-500" /> },
       { href: "/behavioral-prep", label: "Behavioral Prep", icon: <BrainCircuit className="h-4 w-4 text-rose-500" /> },
+      { href: "/coffee-chat", label: "Coffee Chat", icon: <Coffee className="h-4 w-4 text-amber-500" /> },
     ]
   },
   {
@@ -80,6 +84,7 @@ const MENU_GROUPS = [
       { href: "/offer-comparer", label: "Offer Comparer", icon: <Calculator className="h-4 w-4 text-teal-500" /> },
       { href: "/networking", label: "Networking", icon: <Send className="h-4 w-4 text-blue-500" /> },
       { href: "/email-assistant", label: "Email Assistant", icon: <Mail className="h-4 w-4 text-violet-500" /> },
+      { href: "/equity-decoder", label: "Equity Decoder", icon: <Calculator className="h-4 w-4 text-indigo-500" /> },
       { href: "/project-ideas", label: "Portfolio Ideas", icon: <Lightbulb className="h-4 w-4 text-amber-500" /> },
     ]
   },
@@ -90,8 +95,10 @@ const MENU_GROUPS = [
       { href: "/career-pivot", label: "Career Pivot", icon: <ArrowRightLeft className="h-4 w-4 text-orange-500" /> },
       { href: "/onboarding-plan", label: "30-60-90 Plan", icon: <CalendarClock className="h-4 w-4 text-indigo-500" /> },
       { href: "/freelance-proposal", label: "Freelance Proposals", icon: <FileSignature className="h-4 w-4 text-teal-500" /> },
+      { href: "/explore", label: "Explore Careers", icon: <Compass className="h-4 w-4 text-cyan-500" /> },
       { href: "/roadmap", label: "Career Roadmap", icon: <Map className="h-4 w-4 text-amber-500" /> },
       { href: "/resignation-letter", label: "Resignation Letter", icon: <DoorOpen className="h-4 w-4 text-red-500" /> },
+      { href: "/layoff-strategist", label: "Layoff Strategist", icon: <ShieldAlert className="h-4 w-4 text-blue-500" /> },
     ]
   },
   {

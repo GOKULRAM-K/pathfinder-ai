@@ -6,7 +6,8 @@ import {
   ScanSearch, Mic, FileText, Mail, Briefcase, ChevronRight,
   Flame, Linkedin, Star, Video, LayoutList, Lightbulb, 
   DollarSign, Calculator, Send, ArrowRightLeft, CalendarClock,
-  DoorOpen, TrendingUp, FileSignature, BrainCircuit, Compass
+  DoorOpen, TrendingUp, FileSignature, BrainCircuit, Compass,
+  Coffee, ShieldAlert
 } from "lucide-react";
 
 const TOOL_CATEGORIES = [
@@ -30,6 +31,7 @@ const TOOL_CATEGORIES = [
       { name: "STAR Builder", desc: "Craft perfect stories", icon: Star, color: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20", href: "/interview/star-builder" },
       { name: "Cheat Sheet", desc: "Quick prep guide", icon: FileText, color: "bg-zinc-500/10 text-zinc-500 border-zinc-500/20", href: "/interview/cheat-sheet" },
       { name: "Behavioral Prep", desc: "Beat personality tests", icon: BrainCircuit, color: "bg-rose-500/10 text-rose-500 border-rose-500/20", href: "/behavioral-prep" },
+      { name: "Coffee Chat", desc: "Mock networking", icon: Coffee, color: "bg-amber-500/10 text-amber-500 border-amber-500/20", href: "/coffee-chat" },
     ]
   },
   {
@@ -40,10 +42,10 @@ const TOOL_CATEGORIES = [
       { name: "Offer Comparer", desc: "Total comp calculator", icon: Calculator, color: "bg-teal-500/10 text-teal-500 border-teal-500/20", href: "/offer-comparer" },
       { name: "Networking Emails", desc: "Cold outreach", icon: Send, color: "bg-blue-500/10 text-blue-500 border-blue-500/20", href: "/networking" },
       { name: "Email Assistant", desc: "Recruiter replies", icon: Mail, color: "bg-violet-500/10 text-violet-500 border-violet-500/20", href: "/email-assistant" },
+      { name: "Equity Decoder", desc: "Value your options", icon: Calculator, color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20", href: "/equity-decoder" },
       { name: "Portfolio Ideas", desc: "Stand out projects", icon: Lightbulb, color: "bg-amber-500/10 text-amber-500 border-amber-500/20", href: "/project-ideas" },
     ]
   },
-  {
   {
     category: "Transitions & Growth",
     tools: [
@@ -52,6 +54,7 @@ const TOOL_CATEGORIES = [
       { name: "30-60-90 Plan", desc: "New job success", icon: CalendarClock, color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20", href: "/onboarding-plan" },
       { name: "Freelance Proposals", desc: "Win contracts", icon: FileSignature, color: "bg-teal-500/10 text-teal-500 border-teal-500/20", href: "/freelance-proposal" },
       { name: "Resignation Letter", desc: "Quit professionally", icon: DoorOpen, color: "bg-red-500/10 text-red-500 border-red-500/20", href: "/resignation-letter" },
+      { name: "Layoff Strategist", desc: "Severance & recovery", icon: ShieldAlert, color: "bg-blue-500/10 text-blue-500 border-blue-500/20", href: "/layoff-strategist" },
       { name: "Explore Careers", desc: "Discover & Compare", icon: Compass, color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20", href: "/explore" },
     ]
   }
