@@ -36,7 +36,8 @@ import {
   DoorOpen,
   TrendingUp,
   FileSignature,
-  BrainCircuit
+  BrainCircuit,
+  LayoutList
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -46,37 +47,51 @@ const MENU_GROUPS = [
     title: "Intelligence",
     items: [
       { href: "/dashboard", label: "Overview", icon: <LayoutDashboard className="h-4 w-4" /> },
-      { href: "/ai-assistant", label: "AI Assistant", icon: <Bot className="h-4 w-4" /> },
-      { href: "/ats-analyzer", label: "ATS Analyzer", icon: <ScanSearch className="h-4 w-4" /> },
+      { href: "/ats-analyzer", label: "ATS Analyzer", icon: <ScanSearch className="h-4 w-4 text-blue-500" /> },
+      { href: "/dashboard?tab=templates", label: "Templates", icon: <Copy className="h-4 w-4" /> },
     ]
   },
   {
-    title: "Career Tools",
+    title: "Resumes & Branding",
     items: [
-      { href: "/job-tracker", label: "Job Tracker", icon: <Briefcase className="h-4 w-4" /> },
-      { href: "/resume-builder", label: "Resume Builder", icon: <FileText className="h-4 w-4" /> },
+      { href: "/resume-builder", label: "Resume Builder", icon: <FileText className="h-4 w-4 text-amber-500" /> },
       { href: "/resume-roast", label: "Resume Roast", icon: <Flame className="h-4 w-4 text-red-500" /> },
-      { href: "/ai-cover-letter", label: "Cover Letters", icon: <Mail className="h-4 w-4" /> },
-      { href: "/linkedin-optimizer", label: "LinkedIn Optimizer", icon: <ScanSearch className="h-4 w-4" /> },
+      { href: "/ai-cover-letter", label: "Cover Letters", icon: <Mail className="h-4 w-4 text-rose-500" /> },
+      { href: "/linkedin-optimizer", label: "LinkedIn Optimizer", icon: <ScanSearch className="h-4 w-4 text-[#0A66C2]" /> },
       { href: "/linkedin-post", label: "LinkedIn Posts", icon: <Linkedin className="h-4 w-4 text-[#0A66C2]" /> },
-      { href: "/networking", label: "Networking", icon: <Mail className="h-4 w-4" /> },
-      { href: "/email-assistant", label: "Email Assistant", icon: <Send className="h-4 w-4 text-blue-500" /> },
-      { href: "/project-ideas", label: "Portfolio Ideas", icon: <Lightbulb className="h-4 w-4" /> },
-      { href: "/salary-negotiation", label: "Salary Coach", icon: <DollarSign className="h-4 w-4" /> },
-      { href: "/offer-comparer", label: "Offer Comparer", icon: <Calculator className="h-4 w-4 text-emerald-500" /> },
-      { href: "/career-pivot", label: "Career Pivot", icon: <ArrowRightLeft className="h-4 w-4 text-orange-500" /> },
-      { href: "/promotion-negotiator", label: "Promotion Coach", icon: <TrendingUp className="h-4 w-4 text-purple-500" /> },
-      { href: "/freelance-proposal", label: "Freelance Proposals", icon: <FileSignature className="h-4 w-4 text-teal-500" /> },
-      { href: "/onboarding-plan", label: "30-60-90 Plan", icon: <CalendarClock className="h-4 w-4 text-indigo-500" /> },
-      { href: "/resignation-letter", label: "Resignation Letter", icon: <DoorOpen className="h-4 w-4 text-red-500" /> },
-      { href: "/interview", label: "Mock Interviews", icon: <Mic className="h-4 w-4" /> },
-      { href: "/interview/cheat-sheet", label: "Cheat Sheet", icon: <FileSearch className="h-4 w-4" /> },
-      { href: "/behavioral-prep", label: "Behavioral Prep", icon: <BrainCircuit className="h-4 w-4 text-rose-500" /> },
-      { href: "/interview/star-builder", label: "STAR Builder", icon: <Star className="h-4 w-4 text-yellow-500" /> },
-      { href: "/interview/voice-coach", label: "Voice Coach", icon: <Mic className="h-4 w-4 text-green-500" /> },
+    ]
+  },
+  {
+    title: "Interview Prep",
+    items: [
+      { href: "/interview", label: "Mock Interviews", icon: <Briefcase className="h-4 w-4 text-indigo-500" /> },
+      { href: "/interview/voice-coach", label: "Voice Coach", icon: <Mic className="h-4 w-4 text-emerald-500" /> },
       { href: "/interview/video-coach", label: "Video Coach", icon: <Video className="h-4 w-4 text-blue-500" /> },
-      { href: "/roadmap", label: "Career Roadmap", icon: <Map className="h-4 w-4" /> },
-      { href: "/dashboard?tab=templates", label: "Templates", icon: <Copy className="h-4 w-4" /> },
+      { href: "/interview/star-builder", label: "STAR Builder", icon: <Star className="h-4 w-4 text-yellow-500" /> },
+      { href: "/interview/cheat-sheet", label: "Cheat Sheet", icon: <FileSearch className="h-4 w-4 text-zinc-500" /> },
+      { href: "/behavioral-prep", label: "Behavioral Prep", icon: <BrainCircuit className="h-4 w-4 text-rose-500" /> },
+    ]
+  },
+  {
+    title: "Search & Offers",
+    items: [
+      { href: "/job-tracker", label: "Job Tracker", icon: <LayoutList className="h-4 w-4 text-green-500" /> },
+      { href: "/salary-negotiation", label: "Salary Coach", icon: <DollarSign className="h-4 w-4 text-emerald-500" /> },
+      { href: "/offer-comparer", label: "Offer Comparer", icon: <Calculator className="h-4 w-4 text-teal-500" /> },
+      { href: "/networking", label: "Networking", icon: <Send className="h-4 w-4 text-blue-500" /> },
+      { href: "/email-assistant", label: "Email Assistant", icon: <Mail className="h-4 w-4 text-violet-500" /> },
+      { href: "/project-ideas", label: "Portfolio Ideas", icon: <Lightbulb className="h-4 w-4 text-amber-500" /> },
+    ]
+  },
+  {
+    title: "Career Growth",
+    items: [
+      { href: "/promotion-negotiator", label: "Promotion Coach", icon: <TrendingUp className="h-4 w-4 text-purple-500" /> },
+      { href: "/career-pivot", label: "Career Pivot", icon: <ArrowRightLeft className="h-4 w-4 text-orange-500" /> },
+      { href: "/onboarding-plan", label: "30-60-90 Plan", icon: <CalendarClock className="h-4 w-4 text-indigo-500" /> },
+      { href: "/freelance-proposal", label: "Freelance Proposals", icon: <FileSignature className="h-4 w-4 text-teal-500" /> },
+      { href: "/roadmap", label: "Career Roadmap", icon: <Map className="h-4 w-4 text-amber-500" /> },
+      { href: "/resignation-letter", label: "Resignation Letter", icon: <DoorOpen className="h-4 w-4 text-red-500" /> },
     ]
   },
   {
