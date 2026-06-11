@@ -85,7 +85,7 @@ export default function LandingPage() {
                   </div>
                   <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-foreground/80 flex items-center gap-1.5">
                     <Sparkles className="h-3 w-3 text-primary" />
-                    AI-Powered Career Platform
+                    20+ AI Career Tools in One Platform
                   </span>
                 </motion.div>
 
@@ -117,9 +117,7 @@ export default function LandingPage() {
                     }}
                     className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg"
                   >
-                    From resume optimization to interview mastery, PathFinder AI
-                    gives you the tools to accelerate your career with
-                    artificial intelligence.
+                    From ATS resume scoring and mock interviews, to salary negotiation and freelance proposals. Access an arsenal of 20+ specialized AI tools designed to accelerate your career growth.
                   </motion.p>
                 </div>
 

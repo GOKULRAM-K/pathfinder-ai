@@ -67,6 +67,9 @@ model User {
   promotionStrategies  PromotionStrategy[]
   freelanceProposals   FreelanceProposal[]
   behavioralPreps      BehavioralPrep[]
+  layoffStrategies     LayoffStrategy[]
+  coffeeChatSessions   CoffeeChatSession[]
+  equityAnalyses       EquityAnalysis[]
   settings             UserSettings?
 
   exportRecords ExportRecord[]
@@ -465,6 +468,41 @@ model BehavioralPrep {
   company        String
   assessmentType String
   content        Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model LayoffStrategy {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  details        String   @db.Text
+  planContent    Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model CoffeeChatSession {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetRole     String
+  industry       String
+  chatHistory    Json
+  feedback       Json?
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model EquityAnalysis {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  offerDetails   Json
+  analysis       Json
   createdAt      DateTime @default(now())
 
   @@index([userId])
