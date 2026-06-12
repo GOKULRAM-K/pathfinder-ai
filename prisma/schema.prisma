@@ -80,6 +80,9 @@ model User {
   visaStrategies       VisaStrategy[]
   relocationAnalyses   RelocationAnalysis[]
   mentorOutreaches     MentorOutreach[]
+  toxicWorkplaces      ToxicWorkplaceEscape[]
+  freelanceRates       FreelanceRate[]
+  ikigaiDiscoveries    IkigaiDiscovery[]
   settings             UserSettings?
 
   exportRecords ExportRecord[]
@@ -626,6 +629,44 @@ model MentorOutreach {
   goals          String   @db.Text
   targetIndustry String
   outreachData   Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model ToxicWorkplaceEscape {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  symptoms       String   @db.Text
+  role           String
+  escapeData     Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model FreelanceRate {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills         String
+  experience     String
+  targetIncome   String
+  rateData       Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+model IkigaiDiscovery {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  passions       String   @db.Text
+  skills         String   @db.Text
+  marketNeeds    String   @db.Text
+  ikigaiData     Json
   createdAt      DateTime @default(now())
 
   @@index([userId])

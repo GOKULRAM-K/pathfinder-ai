@@ -7,7 +7,7 @@ import {
   Flame, Linkedin, Star, Video, LayoutList, Lightbulb, 
   DollarSign, Calculator, Send, ArrowRightLeft, CalendarClock,
   Coffee, ShieldAlert, Code2, HeartPulse, Rocket,
-  Home, Workflow, CalendarHeart, Globe, MapPin, Users
+  Home, Workflow, CalendarHeart, Globe, MapPin, Users, Flag, HandCoins, Target
 } from "lucide-react";
 
 const TOOL_CATEGORIES = [
@@ -64,6 +64,9 @@ const TOOL_CATEGORIES = [
       { name: "Visa Guide", desc: "Immigration strategies", icon: Globe, color: "bg-indigo-500/10 text-indigo-500 border-indigo-500/20", href: "/visa-guide" },
       { name: "Relocation", desc: "Compare cities & COLA", icon: MapPin, color: "bg-orange-500/10 text-orange-500 border-orange-500/20", href: "/relocation" },
       { name: "Mentor Matcher", desc: "Find your career guide", icon: Users, color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20", href: "/mentor-matcher" },
+      { name: "Toxic Workplace", desc: "Discreet escape plans", icon: Flag, color: "bg-red-500/10 text-red-500 border-red-500/20", href: "/toxic-workplace" },
+      { name: "Freelance Rate", desc: "Calculate your worth", icon: HandCoins, color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20", href: "/freelance-rate" },
+      { name: "Ikigai Builder", desc: "Find your life purpose", icon: Target, color: "bg-violet-500/10 text-violet-500 border-violet-500/20", href: "/ikigai" },
       { name: "Explore Careers", desc: "Discover & Compare", icon: Compass, color: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20", href: "/explore" },
     ]
   }
