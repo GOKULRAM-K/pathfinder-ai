@@ -5,7 +5,7 @@ const AuthLayout = ({ children }) => {
     <div className="min-h-screen flex items-center justify-center pb-20">
       {children}
     </div>
-  );x
+  );
 };
   
 AuthLayout.propTypes = {
