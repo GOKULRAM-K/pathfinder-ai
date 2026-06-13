@@ -22,6 +22,7 @@ import { ModeToggle } from "./ui/Modetoggle";
 import { useTheme } from "next-themes";
 import { getUserOnboardingStatus } from "@/actions/user";
 import { motion, AnimatePresence } from "framer-motion";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
 
 const NAV_LINKS = [
   { id: "features", label: "Features" },
@@ -39,6 +40,8 @@ export default function Header() {
   const pathname = usePathname();
   const [clerkKeyless, setClerkKeyless] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useScrollLock(isMobileMenuOpen);
 
   const isHomePage = pathname === "/";
 
