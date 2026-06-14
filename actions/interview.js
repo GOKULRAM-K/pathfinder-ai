@@ -517,7 +517,7 @@ export async function generateQuiz(category = "Technical") {
   const categoryPrompts = {
     Technical: "Generate 10 technical interview questions focusing on programming concepts, data structures, system design, algorithms, and practical technical knowledge.",
     Behavioral: "Generate 10 behavioral interview questions focusing on teamwork, leadership, conflict resolution, communication, and past experiences. Use scenarios like 'Tell me about a time when...' or 'How would you handle...'",
-    Situational: "Generate 10 situational interview questions focusing on hypothetical workplace scenarios — how the candidate would handle specific on-the-job situations, ethical dilemmas, and decision-making.",
+    Situational: "Generate 10 situational interview questions focusing on hypothetical workplace scenarios - how the candidate would handle specific on-the-job situations, ethical dilemmas, and decision-making.",
     "Industry Knowledge": "Generate 10 industry knowledge interview questions focusing on domain trends, terminology, business context, and role-specific professional awareness.",
   };
 
