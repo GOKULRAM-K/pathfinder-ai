@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
 
 import useStreamFetch from "../hooks/use-stream-fetch.js";
 import { createSseResponse } from "./mocks/handlers.mjs";
@@ -7,6 +7,10 @@ import { server } from "./mocks/server.mjs";
 import { http } from "msw";
 
 describe("useStreamFetch", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("streams SSE deltas across chunk boundaries and handles multi-line data blocks", async () => {
     server.use(
       http.post("http://localhost/api/generate", () => {
@@ -126,25 +130,20 @@ describe("useStreamFetch", () => {
   });
 
   it("handles network failures via direct fetch mock (not MSW)", async () => {
-    const originalFetch = globalThis.fetch;
-    globalThis.fetch = vi.fn().mockRejectedValue(new Error("Network failure"));
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Network failure")));
 
-    try {
-      const { result } = renderHook(() => useStreamFetch());
+    const { result } = renderHook(() => useStreamFetch());
 
-      let outcome;
-      await act(async () => {
-        outcome = await result.current.startStream("Write a resume summary");
-      });
+    let outcome;
+    await act(async () => {
+      outcome = await result.current.startStream("Write a resume summary");
+    });
 
-      expect(outcome.status).toBe("error");
-      expect(outcome.error).toContain("Network failure");
-      expect(result.current.error).toContain("Network failure");
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.streamedText).toBe("");
-      expect(result.current.finalText).toBe("");
-    } finally {
-      globalThis.fetch = originalFetch;
-    }
+    expect(outcome.status).toBe("error");
+    expect(outcome.error).toContain("Network failure");
+    expect(result.current.error).toContain("Network failure");
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.streamedText).toBe("");
+    expect(result.current.finalText).toBe("");
   });
 });
