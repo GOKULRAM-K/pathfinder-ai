@@ -3,12 +3,14 @@
 import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { generateGeminiContent } from "@/lib/gemini";
-import { cachedGenerateGeminiContent, QUIZ_CACHE_TTL_MS, generateCacheKey } from "@/lib/cache";
+import { cachedGenerateGeminiContent, QUIZ_CACHE_TTL_MS, generateCacheKey, cacheStore } from "@/lib/cache";
 import { buildSecurePrompt } from "@/lib/prompt-safety";
 import { buildUserProfileContext } from "@/lib/ai-context";
+import { parseAIJson } from "@/lib/validate";
+import crypto from "crypto";
 import { validateInput, validateOutput } from "@/lib/validate";
 import { quizCategorySchema, quizResultSaveSchema } from "@/lib/schemas/forms";
-import { interviewQuestionsOutputSchema } from "@/lib/schemas/outputs";
+import { interviewQuestionsOutputSchema, voiceFeedbackOutputSchema, videoFeedbackOutputSchema } from "@/lib/schemas";
 import { checkRateLimit, formatResetTime } from "@/lib/rate-limit-actions";
 
 // Fallback MCQ questions in case Gemini generation fails, categorized by industry
@@ -561,6 +563,12 @@ Return ONLY a valid JSON object matching this schema. Do not output any markdown
     }
   ]
 }`,
+  });
+
+  let questions = [];
+  try {
+    const result = await generateGeminiContent(prompt);
+    const quiz = parseAIJson(result.response.text());
     });
 
     try {
@@ -571,12 +579,23 @@ Return ONLY a valid JSON object matching this schema. Do not output any markdown
         throw new Error("Invalid questions structure received from AI.");
       }
 
-      return quizValidation.data.questions.slice(0, 10);
+      return {
+        questions: quizValidation.data.questions.slice(0, 10),
+        isFallback: false
+      };
     } catch (error) {
       console.error("AI Quiz generation failed, using fallback questions:", error);
       const industryId = user.industry?.split("-")[0]?.toLowerCase() || "tech";
-      return FallbackQuizPool[industryId] || TECH_FALLBACK_QUESTIONS;
+      return {
+        questions: FallbackQuizPool[industryId] || TECH_FALLBACK_QUESTIONS,
+        isFallback: true
+      };
     }
+
+    questions = quiz.questions.slice(0, 10);
+  } catch (error) {
+    console.error("AI Quiz generation failed, using default questions:", error);
+    questions = FALLBACK_QUESTIONS;
   } catch (error) {
     console.error("Quiz generation top-level error:", error);
     if (process.env.NODE_ENV === "test") {
@@ -587,11 +606,66 @@ Return ONLY a valid JSON object matching this schema. Do not output any markdown
       error: error.message || "Failed to generate quiz."
     };
   }
+
+  const sessionId = crypto.randomUUID();
+  const cacheKey = `quiz-session:${userId}:${sessionId}`;
+  await cacheStore.set(cacheKey, questions, QUIZ_CACHE_TTL_MS);
+
+  return { sessionId, questions };
 }
 
 /**
  * Saves a quiz result and generates AI-powered feedback if mistakes were made.
  */
+export async function saveQuizResult(sessionId, answers, category = "Technical") {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+  });
+  if (!user) throw new Error("User not found");
+
+  if (!sessionId) throw new Error("Session ID is required");
+
+  const cacheKey = `quiz-session:${userId}:${sessionId}`;
+  const questions = await cacheStore.get(cacheKey);
+  if (!questions) {
+    throw new Error("Quiz session expired or not found. Please start a new quiz.");
+  }
+
+  const profileContext = buildUserProfileContext(user);
+
+  const sanitizedAnswers = Array.isArray(answers)
+    ? answers.slice(0, questions.length)
+    : [];
+
+  while (sanitizedAnswers.length < questions.length) {
+    sanitizedAnswers.push(null);
+  }
+
+  // Map user answers to question outcomes and compute score
+  const questionResults = [];
+  const wrongAnswers = [];
+  let correctCount = 0;
+
+  questions.forEach((q, index) => {
+    if (!q?.question) return;
+
+    const userAnswer = sanitizedAnswers[index];
+    const isCorrect = q.correctAnswer === userAnswer;
+    if (isCorrect) {
+      correctCount++;
+    }
+
+    const mappedQuestion = {
+      question: q.question.trim(),
+      options: q.options,
+      correctAnswer: q.correctAnswer,
+      userAnswer: userAnswer,
+      isCorrect,
+      explanation: q.explanation,
+    };
 export async function saveQuizResult(questions, answers, category = "Technical") {
   try {
     const { userId } = await auth();
@@ -605,6 +679,9 @@ export async function saveQuizResult(questions, answers, category = "Technical")
       throw new Error(`Quiz feedback limit reached. Resets in ${formatResetTime(feedbackLimit.resetAt)}.`);
     }
 
+  const score = questions.length > 0 ? (correctCount / questions.length) * 100 : 0;
+
+  let improvementTip = null;
     const {
       questions: validatedQuestions,
       answers: validatedAnswers,
@@ -688,6 +765,8 @@ export async function saveQuizResult(questions, answers, category = "Technical")
         improvementTip,
       },
     });
+
+    await cacheStore.delete(cacheKey);
 
     return assessment;
   } catch (error) {
@@ -774,9 +853,12 @@ export async function evaluateVoiceAnswer(question, transcribedAnswer) {
 });
   try {
     const aiResult = await generateGeminiContent(prompt);
-    let rawText = aiResult.response.text();
-    const parsed = JSON.parse(rawText);
-    return { success: true, data: parsed };
+    const validation = validateOutput(voiceFeedbackOutputSchema, aiResult.response.text());
+    if (!validation.success) {
+      console.error("Voice evaluation output validation failed:", validation.errors);
+      return { success: false, error: "AI returned an unexpected format." };
+    }
+    return { success: true, data: validation.data };
   } catch (error) {
     console.error("Voice evaluation error:", error);
     return { success: false, error: "Failed to evaluate answer." };
@@ -790,22 +872,15 @@ export async function evaluateVideoAnswer(question, transcribedAnswer, metrics) 
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
-  const assessment = await db.assessment.findFirst({
-    where: {
-      id,
-      userId: user.id,
-    },
-  });
-
-const prompt = buildSecurePrompt({
-  context: "You are an expert interview coach evaluating a video interview response.",
-  task: "Evaluate the transcribed answer and the provided facial metrics (e.g., face detected percentage).",
-  untrustedData: [
-    { label: "question",           value: question,                    maxLength: 1000 },
-    { label: "transcribedAnswer",  value: transcribedAnswer,           maxLength: 3000 },
-    { label: "metrics",            value: JSON.stringify(metrics),     maxLength: 500  },
-  ],
-  outputRules: `Provide feedback in JSON format ONLY. Do not output any markdown code fences or extra text:
+  const prompt = buildSecurePrompt({
+    context: "You are an expert interview coach evaluating a video interview response.",
+    task: "Evaluate the transcribed answer and the provided facial metrics (e.g., face detected percentage).",
+    untrustedData: [
+      { label: "question",           value: question,                    maxLength: 1000 },
+      { label: "transcribedAnswer",  value: transcribedAnswer,           maxLength: 3000 },
+      { label: "metrics",            value: JSON.stringify(metrics),     maxLength: 500  },
+    ],
+    outputRules: `Provide feedback in JSON format ONLY. Do not output any markdown code fences or extra text:
 {
   "score": 85,
   "fillerWordsCount": 3,
@@ -813,13 +888,16 @@ const prompt = buildSecurePrompt({
   "bodyLanguageFeedback": "You maintained great eye contact and presence.",
   "verbalFeedback": "Your answer was very structured, but you used 'um' a few times."
 }`,
-}); 
+  }); 
 
   try {
     const aiResult = await generateGeminiContent(prompt);
-    let rawText = aiResult.response.text();
-    const parsed = JSON.parse(rawText);
-    return { success: true, data: parsed };
+    const validation = validateOutput(videoFeedbackOutputSchema, aiResult.response.text());
+    if (!validation.success) {
+      console.error("Video evaluation output validation failed:", validation.errors);
+      return { success: false, error: "AI returned an unexpected format." };
+    }
+    return { success: true, data: validation.data };
   } catch (error) {
     console.error("Video evaluation error:", error);
     return { success: false, error: "Failed to evaluate video answer." };

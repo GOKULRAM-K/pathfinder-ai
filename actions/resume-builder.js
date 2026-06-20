@@ -1,14 +1,17 @@
 "use server";
+import { JOB_DESCRIPTION_MAX_LENGTH } from "@/lib/input-limits";
 import { UNAUTHORIZED_RESPONSE } from "@/lib/auth-errors";
 import { db } from "@/lib/prisma";
 import { getUserByClerkId } from "@/lib/user";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { buildSecurePrompt } from "@/lib/prompt-safety";
-import { parseAIJson } from "@/lib/validate";
+import { validateOutput } from "@/lib/validate";
+import { resumeOutputSchema } from "@/lib/schemas/resume";
 import { generateGeminiContent } from "@/lib/gemini";
 import { buildUserProfileContext } from "@/lib/ai-context";
 import { checkRateLimit, formatResetTime } from "@/lib/rate-limit-actions";
+import { EMPTY_HISTORY_RESPONSE } from "@/lib/history-response";
 import { createErrorResponse } from "@/lib/action-errors";
 
 export async function generateResumeContent(jobDescription) {
@@ -30,14 +33,14 @@ export async function generateResumeContent(jobDescription) {
   }
 
   const user = await getUserByClerkId(userId);
-  return createErrorResponse("User not found");
+  if (!user) return createErrorResponse("User not found");
 
   const prompt = buildSecurePrompt({
     context: buildUserProfileContext(user),
     task: `You are an expert Executive Resume Writer. Create a tailored, ATS-compliant resume based on the user's profile and the target job description. 
     Ensure keywords from the job description are naturally integrated. Focus on impact and metrics.`,
     untrustedData: [
-      { label: "jobDescription", value: jobDescription, maxLength: 5000 },
+      { label: "jobDescription", value: jobDescription, maxLength: JOB_DESCRIPTION_MAX_LENGTH },
     ],
     outputRules: `Provide the resume data in the following JSON format ONLY:
 {
@@ -83,7 +86,12 @@ export async function generateResumeContent(jobDescription) {
 
   try {
     const aiResult = await generateGeminiContent(prompt);
-    const parsedData = parseAIJson(aiResult.response.text());
+    const validation = validateOutput(resumeOutputSchema, aiResult.response.text());
+    if (!validation.success) {
+      console.error("Resume output validation failed:", validation.errors);
+      return createErrorResponse("AI returned an unexpected format. Please try again.");
+    }
+    const parsedData = validation.data;
 
     const record = await db.resumeGeneration.create({
       data: {
@@ -105,7 +113,7 @@ export async function generateResumeContent(jobDescription) {
 
 export async function getResumeHistory() {
   const { userId } = await auth();
-  if (!userId) return { success: false, data: [] };
+  if (!userId) return EMPTY_HISTORY_RESPONSE;
 
   const user = await getUserByClerkId(userId);
   if (!user) return { success: false, data: [] };
