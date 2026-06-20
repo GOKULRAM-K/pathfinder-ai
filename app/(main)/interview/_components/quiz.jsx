@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { isValidQuizQuestions } from "@/lib/type-guards";
 import {
   Card,
   CardContent,
@@ -62,7 +63,8 @@ export default function Quiz() {
 
   useEffect(() => {
     if (quizData) {
-      setAnswers(new Array(quizData.length).fill(null));
+      const qs = quizData.questions || quizData;
+      setAnswers(new Array(qs.length).fill(null));
     }
   }, [quizData]);
 
@@ -73,7 +75,8 @@ export default function Quiz() {
   };
 
   const handleNext = () => {
-    if (currentQuestion < quizData.length - 1) {
+    const qs = quizData?.questions || quizData;
+    if (currentQuestion < qs.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setShowExplanation(false);
     } else {
@@ -81,20 +84,10 @@ export default function Quiz() {
     }
   };
 
-  const calculateScore = () => {
-    let correct = 0;
-    answers.forEach((answer, index) => {
-      if (answer === quizData[index].correctAnswer) {
-        correct++;
-      }
-    });
-    return (correct / quizData.length) * 100;
-  };
-
   const finishQuiz = async () => {
-    const score = calculateScore();
     try {
-      await saveQuizResultFn(quizData, answers, score, selectedCategory);
+      const qs = quizData?.questions || quizData;
+      await saveQuizResultFn(qs, answers, selectedCategory);
       toast.success("Quiz completed!");
     } catch (error) {
       toast.error(error.message || "Failed to save quiz results");
@@ -175,13 +168,44 @@ export default function Quiz() {
     );
   }
 
-  const question = quizData[currentQuestion];
+  const isQuizValid = isValidQuizQuestions(quizData);
+  if (!isQuizValid) {
+    return (
+      <Card className="mx-2 border-destructive/20 bg-destructive/5 text-center">
+        <CardHeader>
+          <CardTitle className="text-destructive font-bold">Error Loading Quiz</CardTitle>
+          <CardDescription>
+            The generated quiz questions did not match the expected format.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            Please try starting a new quiz. If the issue persists, contact support.
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={startNewQuiz} className="w-full">
+            Start New Quiz
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  const questions = quizData.questions || quizData;
+  const question = questions[currentQuestion];
+  const isFallback = quizData.isFallback;
 
   return (
     <Card className="mx-2">
       <CardHeader>
+        {isFallback && (
+          <div className="mb-4 p-4 bg-yellow-50 text-yellow-900 border border-yellow-200 rounded-lg text-sm">
+            <strong>Note:</strong> AI generation is currently unavailable. Using generic fallback questions.
+          </div>
+        )}
         <CardTitle className="flex items-center justify-between">
-          <span>Question {currentQuestion + 1} of {quizData.length}</span>
+          <span>Question {currentQuestion + 1} of {questions.length}</span>
           <span className="text-xs font-normal text-muted-foreground px-2 py-1 bg-muted rounded-full">
             {selectedCategory}
           </span>
