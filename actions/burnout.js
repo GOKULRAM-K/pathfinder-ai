@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { buildUserLookup } from "@/lib/user-query";
+import { buildHistoryResponse } from "@/lib/history-loader";
 import { buildSecurePrompt, parseAIJson } from "@/lib/prompt-safety";
 import { generateGeminiContent } from "@/lib/gemini";
 import { USER_NOT_FOUND_RESPONSE } from "@/lib/user-not-found";
@@ -73,5 +74,5 @@ export async function getBurnoutAssessments() {
     orderBy: { createdAt: "desc" },
   });
 
-  return { success: true, data: records };
+  return buildHistoryResponse(records);
 }
