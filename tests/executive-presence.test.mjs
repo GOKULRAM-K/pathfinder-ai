@@ -110,6 +110,10 @@ describe("generateExecutivePresence", () => {
           communicationUpgrades: [{ from: "I think we...", to: "I recommend we...", why: "Sounds more authoritative." }],
           meetingStrategy: ["Pre-wire stakeholders"],
           gravitasBuilders: ["Practice the power pause"]
+          personaSummary: "A decisive and highly authoritative leader who commands attention.",
+          communicationUpgrades: [{ from: "I think we might...", to: "I recommend we...", why: "Using declarative recommendations projects confidence and clarity." }],
+          meetingStrategy: ["Pre-wire key stakeholders before meetings"],
+          gravitasBuilders: ["Practice purposeful power pauses"]
         }),
       },
     });
