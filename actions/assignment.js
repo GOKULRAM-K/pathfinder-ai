@@ -2,20 +2,26 @@
 
 import { db } from "@/lib/prisma";
 import { buildUserLookup } from "@/lib/user-query";
+import { getAuthenticatedHistoryResponse } from "@/lib/history-response-auth";
 import { createSuccessResponse } from "@/lib/action-success";
 import { auth } from "@clerk/nextjs/server";
 import { logActionError } from "@/lib/action-logger";
 import { revalidatePath } from "next/cache";
 import { EMPTY_HISTORY_RESPONSE } from "@/lib/history-response";
 import { buildSecurePrompt, parseAIJson } from "@/lib/prompt-safety";
+import { revalidateAppPath } from "@/lib/cache-revalidate";
+import { getAuthenticatedHistoryUser } from "@/lib/history-auth";
 import { buildHistoryResponse } from "@/lib/history-loader";
 import { generateGeminiContent } from "@/lib/gemini";
 import { getHistoryRecords } from "@/lib/history-query";
 import { USER_NOT_FOUND_RESPONSE } from "@/lib/user-not-found";
 
+/** Grade an assignment submission against a rubric or prompt. */
 export async function gradeAssignment(promptText, solutionText) {
   const user = await getAuthenticatedHistoryUser();
 
+  const user = await getUserByScope(userId);
+  if (!user) return USER_NOT_FOUND_RESPONSE;
   if (!user) return EMPTY_HISTORY_RESPONSE;
 
   if (!promptText || !solutionText) {
@@ -60,6 +66,7 @@ export async function gradeAssignment(promptText, solutionText) {
     console.error("Assignment Grader Error:", error);
     return { success: false, errors: { _form: [error.message || "Failed to grade assignment"] } };
   }
+/** Retrieve all graded assignments for the current user. */
 }
 
 export async function getAssignmentGrades() {
