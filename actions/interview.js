@@ -638,6 +638,31 @@ export async function saveQuizResult(sessionId, answers, category = "Technical")
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
+    const user = await db.user.findUnique({
+      where: { clerkUserId: userId },
+    });
+    if (!user) throw new Error("User not found");
+
+    let questions = [];
+    let sessionId = null;
+
+    if (Array.isArray(sessionIdOrQuestions)) {
+      questions = sessionIdOrQuestions;
+      const validation = validateInput(quizResultSaveSchema, { questions, answers, category });
+      if (!validation.success) return { success: false, errors: validation.errors };
+    } else {
+      sessionId = sessionIdOrQuestions;
+      if (!sessionId) {
+        throw new Error("Session ID is required.");
+      }
+      const cacheKey = generateCacheKey("quiz-session", userId, sessionId);
+      questions = await cacheStore.get(cacheKey);
+      if (!questions) {
+        throw new Error("Quiz session expired or not found. Please start a new quiz.");
+      }
+      // Delete quiz session immediately to prevent replay attacks
+      await cacheStore.delete(cacheKey);
+    }
     const validation = validateInput(quizResultSaveSessionSchema, { sessionId, answers, category });
     if (!validation.success) return { success: false, errors: validation.errors };
 
@@ -650,6 +675,14 @@ export async function saveQuizResult(sessionId, answers, category = "Technical")
     const feedbackLimit = await checkRateLimit(userId, "quizFeedback");
     if (!feedbackLimit.allowed) {
       throw new Error(`Quiz feedback limit reached. Resets in ${formatResetTime(feedbackLimit.resetAt)}.`);
+    }
+
+    const sanitizedAnswers = Array.isArray(answers)
+      ? answers.slice(0, questions.length)
+      : [];
+
+    while (sanitizedAnswers.length < questions.length) {
+      sanitizedAnswers.push(null);
     }
 
     const cacheKey = generateCacheKey("quiz-session", userId, validatedSessionId);

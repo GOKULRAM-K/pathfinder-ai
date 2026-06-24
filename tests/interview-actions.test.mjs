@@ -1,6 +1,22 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { generateQuiz, saveQuizResult, getAssessment } from "../actions/interview.js";
 
+const mocks = vi.hoisted(() => {
+  const findUniqueUserMock = vi.fn();
+  return {
+    auth: vi.fn(),
+    findUniqueUser: findUniqueUserMock,
+    createAssessment: vi.fn(),
+    generateGeminiContent: vi.fn(),
+    cacheGet: vi.fn(),
+    cacheSet: vi.fn(),
+    cacheDelete: vi.fn(),
+    userFindUnique: findUniqueUserMock,
+    assessmentFindFirst: vi.fn(),
+    checkRateLimit: vi.fn(),
+    formatResetTime: vi.fn(),
+  };
+});
 const mocks = vi.hoisted(() => ({
   auth: vi.fn(),
   findUniqueUser: vi.fn(),
@@ -26,6 +42,11 @@ vi.mock("@/lib/prisma", () => ({
     assessment: {
       create: mocks.createAssessment,
       findFirst: mocks.assessmentFindFirst,
+    },
+    aiRateLimit: {
+      findUnique: vi.fn().mockResolvedValue(null),
+      upsert: vi.fn().mockResolvedValue({ count: 1 }),
+      update: vi.fn().mockResolvedValue({}),
     },
   },
 }));
@@ -56,10 +77,13 @@ vi.mock("@/lib/cache", async () => {
   };
 });
 
+import { generateQuiz, saveQuizResult, getAssessment } from "../actions/interview.js";
+
 describe("interview actions", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.checkRateLimit.mockResolvedValue({ allowed: true });
+    mocks.formatResetTime.mockReturnValue("1 hour");
     mocks.formatResetTime.mockReturnValue("10m");
   });
 
@@ -191,6 +215,16 @@ describe("interview actions", () => {
       mocks.auth.mockResolvedValue({ userId: null });
       const result = await getAssessment("assessment-1");
       expect(result).toBeNull();
+      expect(mocks.userFindUnique).not.toHaveBeenCalled();
+    });
+
+    it("returns null if user is not found in database", async () => {
+      mocks.auth.mockResolvedValue({ userId: "clerk-1" });
+      mocks.userFindUnique.mockResolvedValue(null);
+      const result = await getAssessment("assessment-1");
+      expect(result).toBeNull();
+    });
+
       expect(mocks.findUniqueUser).not.toHaveBeenCalled();
     });
 
@@ -206,6 +240,7 @@ describe("interview actions", () => {
       const mockAssessment = { id: "assessment-1", userId: "user-1" };
 
       mocks.auth.mockResolvedValue({ userId: "clerk-1" });
+      mocks.userFindUnique.mockResolvedValue(mockUser);
       mocks.findUniqueUser.mockResolvedValue(mockUser);
       mocks.assessmentFindFirst.mockResolvedValue(mockAssessment);
 
