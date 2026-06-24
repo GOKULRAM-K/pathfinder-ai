@@ -74,7 +74,7 @@ export async function optimizeLinkedInProfile(data) {
   }
 }
 
-export async function getLinkedInOptimizations() {
+export async function getLinkedInOptimizations({ take = 10, skip = 0 } = {}) {
   const { userId } = await auth();
   if (!userId) return { success: false, data: [] };
 
@@ -86,6 +86,8 @@ export async function getLinkedInOptimizations() {
   const records = await db.linkedInOptimization.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
+    take,
+    skip,
   });
 
   return { success: true, data: records };
