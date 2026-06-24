@@ -20,6 +20,8 @@ import { USER_NOT_FOUND_RESPONSE } from "@/lib/user-not-found";
 export async function gradeAssignment(promptText, solutionText) {
   const user = await getAuthenticatedHistoryUser();
 
+  const user = await getUserByScope(userId);
+  if (!user) return USER_NOT_FOUND_RESPONSE;
   if (!user) return EMPTY_HISTORY_RESPONSE;
 
   if (!promptText || !solutionText) {
