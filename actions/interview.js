@@ -620,6 +620,7 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
 
     let questions = [];
     let sessionId = null;
+    let cacheKey = null;
     const cacheStore = getCacheStore();
 
     if (Array.isArray(sessionIdOrQuestions)) {
@@ -631,7 +632,7 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
       if (!sessionId) {
         throw new Error("Session ID is required.");
       }
-      const cacheKey = generateCacheKey("quiz-session", userId, sessionId);
+      cacheKey = generateCacheKey("quiz-session", userId, sessionId);
       questions = await cacheStore.get(cacheKey);
       if (!questions) {
         throw new Error("Quiz session expired or not found. Please start a new quiz.");
