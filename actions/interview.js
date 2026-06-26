@@ -652,6 +652,14 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
     if (!feedbackLimit.allowed) {
       throw new Error(`Quiz feedback limit reached. Resets in ${formatResetTime(feedbackLimit.resetAt)}.`);
     }
+    const sanitizedAnswers = Array.isArray(answers)
+      ? answers.slice(0, questions.length)
+      : [];
+
+    while (sanitizedAnswers.length < questions.length) {
+      sanitizedAnswers.push(null);
+    }
+
     let correctCount = 0;
     const questionResults = [];
     const wrongAnswers = [];
