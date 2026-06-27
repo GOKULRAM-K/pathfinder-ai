@@ -620,6 +620,8 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
 
     let questions = [];
     let sessionId = null;
+    let cacheKey = null;
+    const cacheStore = getCacheStore();
 
     if (Array.isArray(sessionIdOrQuestions)) {
       questions = sessionIdOrQuestions;
@@ -630,7 +632,7 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
       if (!sessionId) {
         throw new Error("Session ID is required.");
       }
-      const cacheKey = generateCacheKey("quiz-session", userId, sessionId);
+      cacheKey = generateCacheKey("quiz-session", userId, sessionId);
       questions = await cacheStore.get(cacheKey);
       if (!questions) {
         throw new Error("Quiz session expired or not found. Please start a new quiz.");
@@ -651,91 +653,6 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
     if (!feedbackLimit.allowed) {
       throw new Error(`Quiz feedback limit reached. Resets in ${formatResetTime(feedbackLimit.resetAt)}.`);
     }
-
-    let questions;
-    let cacheKey = null;
-
-    if (Array.isArray(sessionIdOrQuestions)) {
-      questions = sessionIdOrQuestions;
-    } else {
-      const sessionId = sessionIdOrQuestions;
-      if (!sessionId) {
-        throw new Error("Session ID is required.");
-      }
-      cacheKey = generateCacheKey("quiz-session", userId, sessionId);
-      questions = await cacheStore.get(cacheKey);
-      if (!questions) {
-        throw new Error("Quiz session expired or not found. Please start a new quiz.");
-      }
-    }
-
-    const profileContext = buildUserProfileContext(user);
-
-    const sanitizedAnswers = Array.isArray(answers)
-      ? answers.slice(0, questions.length)
-      : [];
-
-    while (sanitizedAnswers.length < questions.length) {
-      sanitizedAnswers.push(null);
-    }
-
-    // Map user answers to question outcomes and compute score on the server
-    const sanitizedAnswers = Array.isArray(answers)
-      ? answers.slice(0, questions.length)
-      : [];
-
-    while (sanitizedAnswers.length < questions.length) {
-      sanitizedAnswers.push(null);
-    }
-
-    const cacheKey = generateCacheKey("quiz-session", userId, validatedSessionId);
-    const questions = await cacheStore.get(cacheKey);
-
-    if (!questions || !Array.isArray(questions) || questions.length === 0) {
-      throw new Error("Quiz session expired or not found. Please start a new quiz.");
-    }
-    const {
-      sessionId: validatedSessionId,
-      answers: validatedAnswers,
-      category: validatedCategory,
-    } = validation.data;
-
-    const cacheStore = getCacheStore();
-    const cacheKey = generateCacheKey("quiz:session", userId, validatedSessionId);
-    const questions = await cacheStore.get(cacheKey);
-
-    if (!questions || !Array.isArray(questions) || questions.length === 0) {
-      throw new Error("Quiz session not found or expired.");
-    }
-
-    if (questions.length !== validatedAnswers.length) {
-      throw new Error("Answers must match the number of questions.");
-    }
-
-    const user = await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
-    if (!user) throw new Error("User not found");
-
-    const profileContext = buildUserProfileContext(user);
-
-    let questions;
-    let cacheKey = null;
-    const cacheStore = getCacheStore();
-
-    if (typeof sessionIdOrQuestions === "string") {
-      const sessionId = sessionIdOrQuestions;
-      cacheKey = generateCacheKey("quiz-session", userId, sessionId);
-      questions = await cacheStore.get(cacheKey);
-      if (!questions) {
-        throw new Error("Quiz session expired or not found. Please start a new quiz.");
-      }
-    } else if (Array.isArray(sessionIdOrQuestions)) {
-      questions = sessionIdOrQuestions;
-    } else {
-      throw new Error("Session ID is required.");
-    }
-
     const sanitizedAnswers = Array.isArray(answers)
       ? answers.slice(0, questions.length)
       : [];
@@ -755,22 +672,15 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
       const isCorrect = q.correctAnswer === userAnswer;
       if (isCorrect) {
         correctCount++;
-      } else {
-        wrongAnswers.push(q);
       }
 
-      questionResults.push({
+      const mappedQuestion = {
         question: q.question.trim(),
         options: q.options,
         correctAnswer: q.correctAnswer,
         userAnswer: userAnswer,
         isCorrect,
         explanation: q.explanation || "",
-      });
-    });
-
-    const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 100) : 0;
-        explanation: q.explanation,
       };
 
       questionResults.push(mappedQuestion);
@@ -780,11 +690,12 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
       }
     });
 
-    const computedScore = questions.length > 0
+    const score = questions.length > 0
       ? Math.round((correctCount / questions.length) * 100)
       : 0;
 
     let improvementTip = null;
+    const profileContext = buildUserProfileContext(user);
 
     if (wrongAnswers.length > 0) {
       const wrongText = wrongAnswers
@@ -799,7 +710,6 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
           { label: "industry", value: user.industry || "software", maxLength: 200 },
           { label: "category", value: category, maxLength: 200 },
           { label: "score", value: String(score), maxLength: 50 },
-          { label: "score", value: String(computedScore), maxLength: 50 },
           { label: "wrongAnswers", value: wrongText, maxLength: 4000 },
         ],
       });
@@ -820,16 +730,9 @@ export async function saveQuizResult(sessionIdOrQuestions, answers, category = "
         quizScore: score,
         questions: questionResults,
         category,
-        category: category,
         improvementTip,
       },
     });
-
-    if (cacheKey) {
-      await cacheStore.delete(cacheKey);
-    }
-    // Delete session cache entry to prevent replay attack
-    await cacheStore.delete(cacheKey);
 
     return assessment;
   } catch (error) {
@@ -903,7 +806,7 @@ export async function evaluateVoiceAnswer(question, transcribedAnswer) {
 
   const voiceLimit = await checkRateLimit(userId, "voiceEvaluation");
   if (!voiceLimit.allowed) {
-    return { success: false, error: Voice evaluation limit reached. Resets in . };
+    return { success: false, error: `Voice evaluation limit reached. Resets in ${formatResetTime(voiceLimit.resetAt)}.` };
   }
 
   const prompt = buildSecurePrompt({
