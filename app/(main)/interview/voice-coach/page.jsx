@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { evaluateVoiceAnswer } from "@/actions/interview";
+import { evaluateVoiceAnswer, getCoachQuestions } from "@/actions/interview";
+import useFetch from "@/hooks/use-fetch";
 import { Mic, Square, Play, RotateCcw, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,10 @@ import { toast } from "sonner";
 import { useTextToSpeech } from "@/hooks/use-text-to-speech";
 import { useTranslation } from "@/hooks/use-translation";
 
-// For V1, we'll use a standard behavioral question from translations.
-
 export default function VoiceCoachPage() {
   const { t, language } = useTranslation();
-  const QUESTION = t("interviewQuestion");
+  const { data: questionPool, fn: loadQuestions } = useFetch(getCoachQuestions);
+  const [question, setQuestion] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [evaluating, setEvaluating] = useState(false);
@@ -22,6 +22,15 @@ export default function VoiceCoachPage() {
   const { speak, cancel, supported: ttsSupported } = useTextToSpeech();
   
   const recognitionRef = useRef(null);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { loadQuestions(); }, []);
+
+  useEffect(() => {
+    if (questionPool?.length) {
+      setQuestion(questionPool[Math.floor(Math.random() * questionPool.length)]);
+    }
+  }, [questionPool]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -74,7 +83,7 @@ export default function VoiceCoachPage() {
         return;
       }
       setEvaluating(true);
-      const res = await evaluateVoiceAnswer(QUESTION, transcript);
+      const res = await evaluateVoiceAnswer(question, transcript);
       if (res.success) {
         setEvaluation(res.data);
         
@@ -93,6 +102,10 @@ export default function VoiceCoachPage() {
     setTranscript("");
     setEvaluation(null);
     cancel();
+    if (questionPool?.length) {
+      const pool = questionPool.filter((q) => q !== question);
+      setQuestion(pool[Math.floor(Math.random() * pool.length)] || questionPool[0]);
+    }
   };
 
   return (
@@ -133,7 +146,7 @@ export default function VoiceCoachPage() {
             >
               <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-widest mb-4">{t("prompt")}</h3>
               <p className="text-xl md:text-2xl font-semibold leading-relaxed text-foreground">
-                "{QUESTION}"
+                "{question}"
               </p>
             </motion.div>
 

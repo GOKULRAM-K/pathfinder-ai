@@ -481,6 +481,22 @@ const FallbackQuizPool = {
 };
 
 /**
+ * Returns an array of question strings for the voice/video coach,
+ * selected from the fallback pool that matches the user's industry.
+ */
+export async function getCoachQuestions() {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+  const user = await db.user.findUnique({
+    where: { clerkUserId: userId },
+    select: { industry: true },
+  });
+  const key = user?.industry?.toLowerCase() || "tech";
+  const pool = FallbackQuizPool[key] || TECH_FALLBACK_QUESTIONS;
+  return pool.map((q) => q.question);
+}
+
+/**
  * Generates 10 unique MCQ questions based on user's industry, skills, and quiz category.
  */
 export async function generateQuiz(category = "Technical") {
